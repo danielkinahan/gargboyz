@@ -56,17 +56,29 @@
     </style>
 </head>
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme List</title>
+</head>
+
 <body>
-    <h1>Meme Gallery</h1>
+    <h1>Meme List</h1>
+    <a href="{% url 'meme_add' %}">Add New Meme</a>
     <table>
         <thead>
             <tr>
                 <th>Number</th>
-                <th>Media</th>
-                <th>Voice Recording</th>
-                <th>Other Field 1</th>
-                <th>Other Field 2</th>
-                <!-- Add other table headers for additional fields if needed -->
+                <th>Declared number</th>
+                <th>Meme</th>
+                <th>Meme constructed</th>
+                <th>Idea</th>
+                <th>Idea date</th>
+                <th>Transcript</th>
+                <th>Authors</th>
+                <th>Season</th>
+                <th>Subseason</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -74,6 +86,7 @@
             {% for meme in memes %}
             <tr>
                 <td>{{ meme.number }}</td>
+                <td>{{ meme.declared_number }}</td>
                 <td>
                     {% if meme.media_type == 'jpeg' %}
                     <img src="{% static meme.media_path %}" alt="Meme {{ meme.number }}">
@@ -86,6 +99,7 @@
                     </video>
                     {% endif %}
                 </td>
+                <td>{{ meme.media_created_at }}</td>
                 <td>
                     {% if meme.voice_recording_path %}
                     <audio controls>
@@ -96,9 +110,19 @@
                     No voice recording available.
                     {% endif %}
                 </td>
-                <td>{{ meme.other_field_1 }}</td>
-                <td>{{ meme.other_field_2 }}</td>
-                <!-- Add other table data for additional fields if needed -->
+                <td>{{ meme.voice_recording_created_at }}</td>
+                <td>{{ meme.voice_recording_transcript }}</td>
+                <td>
+                    {% for author in meme.authors.all %}
+                    {{ author.name }}
+                    {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ meme.season }}</td>
+                <td>{{ meme.subseason }}</td>
+                <td>
+                    <a href="{% url 'meme_edit' meme.pk %}">Edit</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
