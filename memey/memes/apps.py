@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class MemeyConfig(AppConfig):
+class MemesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'memey'
+    name = 'memes'

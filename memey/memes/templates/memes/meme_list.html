@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        img {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: 5px;
+        }
+
+        video {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: 5px;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Meme Gallery</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Media</th>
+                <th>Voice Recording</th>
+                <th>Other Field 1</th>
+                <th>Other Field 2</th>
+                <!-- Add other table headers for additional fields if needed -->
+            </tr>
+        </thead>
+        <tbody>
+            {% load static %}
+            {% for meme in memes %}
+            <tr>
+                <td>{{ meme.number }}</td>
+                <td>
+                    {% if meme.media_type == 'jpeg' %}
+                    <img src="{% static meme.media_path %}" alt="Meme {{ meme.number }}">
+                    {% elif meme.media_type == 'gif' %}
+                    <img src="{% static meme.media_path %}" alt="Meme {{ meme.number }}">
+                    {% elif meme.media_type == 'video' %}
+                    <video controls>
+                        <source src="{% static meme.media_path %}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if meme.voice_recording_path %}
+                    <audio controls>
+                        <source src="{% static meme.voice_recording_path %}" type="audio/mp3">
+                        Your browser does not support the audio tag.
+                    </audio>
+                    {% else %}
+                    No voice recording available.
+                    {% endif %}
+                </td>
+                <td>{{ meme.other_field_1 }}</td>
+                <td>{{ meme.other_field_2 }}</td>
+                <!-- Add other table data for additional fields if needed -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>
