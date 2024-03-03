@@ -38,12 +38,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
     'memes',
 ]
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 STATIC_URL = '/static/'
 # Update this line to the correct URL for serving media files
 MEDIA_URL = '/uploads/'
+
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 # This should be the filesystem path to the directory that will hold user-uploaded files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')

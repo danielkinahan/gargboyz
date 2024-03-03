@@ -1,60 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meme Gallery</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-        }
+{% block title %}Meme Form{% endblock %}
 
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            color: #333;
-        }
+{% block content %}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        img {
-            max-width: 200px;
-            max-height: 150px;
-            border-radius: 5px;
-        }
-
-        video {
-            max-width: 200px;
-            max-height: 150px;
-            border-radius: 5px;
-        }
-
-        audio {
-            width: 100%;
-            margin-top: 10px;
-            border-radius: 5px;
-        }
-    </style>
-</head>
+{% if user.is_authenticated %}
 
 <head>
     <meta charset="UTF-8">
@@ -92,3 +42,9 @@
 </body>
 
 </html>
+{% else %}
+<p>You are not logged in</p>
+<p><a href="{% url 'password_reset' %}">Password Reset</a></p>
+<p><a href="{% url 'login' %}">Log In</a></p>
+{% endif %}
+{% endblock %}
