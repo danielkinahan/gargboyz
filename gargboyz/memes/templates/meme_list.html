@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        img {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: 5px;
+        }
+
+        video {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: 5px;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme List</title>
+</head>
+
+<body>
+    <h1>Meme List</h1>
+    <a href="{% url 'meme_add' %}">Add New Meme</a>
+    <a href="{% url 'meme_add_multiple' %}">Add Many Memes</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Meme</th>
+                <th>Idea</th>
+                <th>Transcript</th>
+                <th>Number</th>
+                <th>Authors</th>
+                <th>Declared number</th>
+                <th>Idea date</th>
+                <th>Season</th>
+                <th>Meme constructed</th>
+                <th>Subseason</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for meme in memes %}
+            <tr>
+                <td>
+                    {% if meme.meme_type == 'jpeg' %}
+                    <img src="{{ meme.meme_path.url }}" alt="Meme {{ meme.number }}">
+                    {% elif meme.meme_type == 'gif' %}
+                    <img src="{{ meme.meme_path.url }}" alt="Meme {{ meme.number }}">
+                    {% elif meme.meme_type == 'video' %}
+                    <video controls>
+                        <source src="{{ meme.meme_path.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if meme.voice_recording_path %}
+                    <audio controls>
+                        <source src="{{ meme.voice_recording_path.url }}" type="audio/mp3">
+                        Your browser does not support the audio tag.
+                    </audio>
+                    {% else %}
+                    No voice recording available.
+                    {% endif %}
+                </td>
+                <td>{{ meme.voice_recording_transcript }}</td>
+                <td>{{ meme.number }}</td>
+                <td>
+                    {% for author in meme.authors.all %}
+                    {{ author.name }}
+                    {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ meme.declared_number }}</td>
+                <td>{{ meme.voice_recording_created_at }}</td>
+                <td>{{ meme.season }}</td>
+                <td>{{ meme.meme_created_at }}</td>
+                <td>{{ meme.subseason }}</td>
+                <td>
+                    <a href="{% url 'meme_edit' meme.pk %}">Edit</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>
