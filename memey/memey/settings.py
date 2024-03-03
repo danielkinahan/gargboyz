@@ -42,6 +42,11 @@ INSTALLED_APPS = [
 ]
 
 STATIC_URL = '/static/'
+# Update this line to the correct URL for serving media files
+MEDIA_URL = '/uploads/'
+
+# This should be the filesystem path to the directory that will hold user-uploaded files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
