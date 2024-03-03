@@ -1,16 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %}Meme Form{% endblock %}
-
-{% block content %}
-
-{% if user.is_authenticated %}
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Meme Form{% endblock %}</title>
 </head>
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
 
 <body>
     <h1>{% block heading %}Meme Form{% endblock %}</h1>
