@@ -1,10 +1,14 @@
-# memey
+# gargboyz
 
-A django project to display memes me and my friends make
+A django project to display gargboyz memorabilia.
 
-## Table structure
+## Meme app
 
-### meme:
+An app that displays and allows uploads of memes.
+
+### Tables
+
+#### meme
 
 | **column name**            | **type**             | **description**                              |
 | -------------------------- | -------------------- | -------------------------------------------- |
