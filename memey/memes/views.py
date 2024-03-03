@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
-from django.forms import formset_factory
-from .forms import MemeForm, MemeFormSet
+from django_tables2 import RequestConfig
+from .forms import MemeAddForm, MemeEditForm, MemeAddFormSet
 from .models import Meme
-import os
 
 
 def meme_list(request):
@@ -12,19 +11,19 @@ def meme_list(request):
 
 def meme_add(request):
     if request.method == 'POST':
-        form = MemeForm(request.POST, request.FILES)
+        form = MemeAddForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             # Redirect to the list view after successful submission
             return redirect('meme_list')
     else:
-        form = MemeForm()
+        form = MemeAddForm()
     return render(request, 'meme_form.html', {'form': form})
 
 
 def meme_add_multiple(request):
     if request.method == 'POST':
-        formset = MemeFormSet(request.POST, request.FILES)
+        formset = MemeAddFormSet(request.POST, request.FILES)
         if formset.is_valid():
             instances = formset.save(commit=False)
             for instance in instances:
@@ -33,17 +32,17 @@ def meme_add_multiple(request):
             # Redirect to the appropriate URL after saving
             return redirect('meme_list')
     else:
-        formset = MemeFormSet()
+        formset = MemeAddFormSet()
     return render(request, 'meme_form_multiple.html', {'formset': formset})
 
 
 def meme_edit(request, pk):
     meme = Meme.objects.get(pk=pk)
     if request.method == 'POST':
-        form = MemeForm(request.POST, instance=meme)
+        form = MemeEditForm(request.POST, instance=meme)
         if form.is_valid():
             form.save()
             return redirect('meme_list')
     else:
-        form = MemeForm(instance=meme)
+        form = MemeEditForm(instance=meme)
     return render(request, 'meme_form.html', {'form': form})

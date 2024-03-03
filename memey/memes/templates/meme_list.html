@@ -69,15 +69,15 @@
     <table>
         <thead>
             <tr>
-                <th>Number</th>
-                <th>Declared number</th>
                 <th>Meme</th>
-                <th>Meme constructed</th>
                 <th>Idea</th>
-                <th>Idea date</th>
                 <th>Transcript</th>
+                <th>Number</th>
                 <th>Authors</th>
+                <th>Declared number</th>
+                <th>Idea date</th>
                 <th>Season</th>
+                <th>Meme constructed</th>
                 <th>Subseason</th>
                 <th>Actions</th>
             </tr>
@@ -85,8 +85,6 @@
         <tbody>
             {% for meme in memes %}
             <tr>
-                <td>{{ meme.number }}</td>
-                <td>{{ meme.declared_number }}</td>
                 <td>
                     {% if meme.meme_type == 'jpeg' %}
                     <img src="{{ meme.meme_path.url }}" alt="Meme {{ meme.number }}">
@@ -99,7 +97,6 @@
                     </video>
                     {% endif %}
                 </td>
-                <td>{{ meme.meme_created_at }}</td>
                 <td>
                     {% if meme.voice_recording_path %}
                     <audio controls>
@@ -110,15 +107,18 @@
                     No voice recording available.
                     {% endif %}
                 </td>
-                <td>{{ meme.voice_recording_created_at }}</td>
                 <td>{{ meme.voice_recording_transcript }}</td>
+                <td>{{ meme.number }}</td>
                 <td>
                     {% for author in meme.authors.all %}
                     {{ author.name }}
                     {% if not forloop.last %}, {% endif %}
                     {% endfor %}
                 </td>
+                <td>{{ meme.declared_number }}</td>
+                <td>{{ meme.voice_recording_created_at }}</td>
                 <td>{{ meme.season }}</td>
+                <td>{{ meme.meme_created_at }}</td>
                 <td>{{ meme.subseason }}</td>
                 <td>
                     <a href="{% url 'meme_edit' meme.pk %}">Edit</a>

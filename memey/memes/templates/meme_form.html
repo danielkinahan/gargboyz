@@ -67,16 +67,26 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <!-- <p>
-            <label for="id_media_created_at">Media created at:</label>
-            <input type="date" name="media_created_at" id="id_media_created_at">
-        </p>
-        <p>
-            <label for="id_voice_recording_created_at">Voice recording created at:</label>
-            <input type="datetime-local" name="voice_recording_created_at" id="id_voice_recording_created_at">
-        </p> -->
         <button type="submit">Submit</button>
     </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script>
+        // Function to populate the created_at field based on file metadata
+        document.getElementById('id_meme_path').addEventListener('change', function () {
+            var file = this.files[0];
+            var createdAt = new Date(file.lastModified); // Get last modified date of the file
+            var formattedDate = createdAt.toISOString().split('T')[0]; // Format the date into 'YYYY-MM-DD' format
+            document.getElementById('id_meme_created_at').value = formattedDate; // Set the formatted date to the input field
+        });
+
+        // Function to populate the created_at field based on file metadata
+        document.getElementById('id_voice_recording_path').addEventListener('change', function () {
+            var file = this.files[0];
+            var createdAt = new Date(file.lastModified); // Get last modified date of the file
+            var formattedDateTime = moment(createdAt).format('YYYY-MM-DD HH:mm:ss');
+            document.getElementById('id_voice_recording_created_at').value = formattedDateTime; // Set the formatted date to the input field
+        });
+    </script>
 
 
 </body>
