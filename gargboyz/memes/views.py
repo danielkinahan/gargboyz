@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django_tables2 import RequestConfig
 from .forms import MemeAddForm, MemeEditForm, MemeAddFormSet
 from .models import Meme
 

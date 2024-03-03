@@ -1,0 +1,6 @@
+version: "3.8"
+
+services:
+  gargboyz:
+    image: ghcr.io/danielkinahan/gargboyz:latest
+    container_name: gargboyz
