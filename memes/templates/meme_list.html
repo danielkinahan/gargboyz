@@ -14,9 +14,9 @@
 
 <body>
     <h1>Meme List</h1>
-    <a href="{% url 'meme_add' %}" , style='border: 1px solid black; display: inline-block; padding: 5px;'>Add a
+    <a href="{% url 'create' %}" , style='border: 1px solid black; display: inline-block; padding: 5px;'>Add a
         meme</a>
-    <!-- <a href="{% url 'meme_add_multiple' %}">Add Many Memes</a> -->
+    <!-- <a href="{% url 'create_multiple' %}">Add Many Memes</a> -->
     <form action="{% url 'logout' %}" method="post" , style="display: flex; justify-content: right;">
         {% csrf_token %}
         <button type="submit">Log Out</button>
@@ -76,7 +76,7 @@
                 <td>{{ meme.meme_created_at }}</td>
                 <td>{{ meme.subseason }}</td>
                 <td>
-                    <a href="{% url 'meme_edit' meme.pk %}">Edit</a>
+                    <a href="{% url 'update' meme.pk %}">Edit</a>
                 </td>
             </tr>
             {% endfor %}
