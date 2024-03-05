@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
 from .forms import MemeAddForm, MemeEditForm, MemeAddFormSet
@@ -10,11 +13,29 @@ from .utils import get_extension, transcribe_audio
 from .serializers import MemeSerializer
 
 
+@api_view(['GET'])
+# Use BasicAuthentication for authentication
+@authentication_classes([BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def api_read(request):
+    # Query your model data
+    queryset = Meme.objects.all()
+
+    # Serialize the queryset
+    serializer = MemeSerializer(queryset, many=True)
+
+    # Return serialized data
+    return Response(serializer.data)
+
+
+@login_required
 def read(request):
     memes = Meme.objects.all()
     return render(request, 'meme_list.html', {'memes': memes})
 
 
+@authentication_classes([BasicAuthentication])
+@permission_classes([IsAuthenticated])
 @api_view(['POST'])
 def api_create(request):
     serializer = MemeSerializer(data=request.data)
@@ -36,6 +57,7 @@ def api_create(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@login_required
 def create(request):
     form = MemeAddForm(request.POST, request.FILES)
     if form.is_valid():
@@ -56,6 +78,7 @@ def create(request):
     return render(request, 'meme_form.html', {'form': form})
 
 
+@login_required
 def create_multiple(request):
     if request.method == 'POST':
         formset = MemeAddFormSet(request.POST, request.FILES)
@@ -71,6 +94,7 @@ def create_multiple(request):
     return render(request, 'meme_form_multiple.html', {'formset': formset})
 
 
+@login_required
 def update(request, pk):
     meme = Meme.objects.get(pk=pk)
     if request.method == 'POST':

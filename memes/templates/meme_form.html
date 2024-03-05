@@ -8,8 +8,6 @@
 
 {% block content %}
 
-{% if user.is_authenticated %}
-
 
 <body>
     <h1>{% block heading %}Meme Form{% endblock %}</h1>
@@ -41,9 +39,4 @@
 </body>
 
 </html>
-{% else %}
-<p>You are not logged in</p>
-<p><a href="{% url 'password_reset' %}">Password Reset</a></p>
-<p><a href="{% url 'login' %}">Log In</a></p>
-{% endif %}
 {% endblock %}
