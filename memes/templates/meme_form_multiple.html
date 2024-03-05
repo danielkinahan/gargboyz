@@ -4,8 +4,6 @@
 
 {% block content %}
 
-{% if user.is_authenticated %}
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const formContainer = document.getElementById('form-container');
@@ -61,10 +59,4 @@
     <button type="button" id="add-form">Add Meme</button>
     <button type="submit">Submit</button>
 </form>
-
-{% else %}
-<p>You are not logged in</p>
-<p><a href="{% url 'password_reset' %}">Password Reset</a></p>
-<p><a href="{% url 'login' %}">Log In</a></p>
-{% endif %}
 {% endblock %}

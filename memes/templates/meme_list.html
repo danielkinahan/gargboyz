@@ -4,8 +4,6 @@
 
 {% block content %}
 
-{% if user.is_authenticated %}
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -85,10 +83,4 @@
 </body>
 
 </html>
-
-{% else %}
-<p>You are not logged in</p>
-<p><a href="{% url 'password_reset' %}">Password Reset</a></p>
-<p><a href="{% url 'login' %}">Log In</a></p>
-{% endif %}
 {% endblock %}
