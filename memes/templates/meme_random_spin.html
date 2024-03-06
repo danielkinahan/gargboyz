@@ -31,6 +31,10 @@
             font-size: 50px;
         }
 
+        image {
+            height: auto;
+        }
+
         #details {
             font-size: 50px;
             font-weight: bold;
@@ -136,7 +140,8 @@
                         .append("img")
                         .attr("src", data[picked].meme_path)
                         .attr("width", "100%")
-                        .attr("height", "auto");
+                        .attr("height", "auto")
+                        .attr("style", "height: auto");
                     d3.select("#image")
                         .append("audio")
                         .attr("src", data[picked].voice_recording_path)
