@@ -6,6 +6,8 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+import random
+import json
 
 from .forms import MemeAddForm, MemeEditForm, MemeAddFormSet
 from .models import Meme
@@ -32,6 +34,21 @@ def api_read(request):
 def read(request):
     memes = Meme.objects.all()
     return render(request, 'meme_list.html', {'memes': memes})
+
+
+@login_required
+def read_random(request):
+    memes = Meme.objects.all().exclude(meme_path__isnull=True)
+    data = []
+    for meme in memes:
+        # Append data to list
+        data.append({
+            'number': meme.number,
+            'meme_path': meme.meme_path.url,
+            'voice_recording_path': meme.voice_recording_path.url,
+            'voice_recording_transcript': meme.voice_recording_transcript,
+        })
+    return render(request, 'meme_random_spin.html', {'data': json.dumps(data)})
 
 
 @authentication_classes([BasicAuthentication])

@@ -14,6 +14,8 @@
     <h1>Meme List</h1>
     <a href="{% url 'create' %}" , style='border: 1px solid black; display: inline-block; padding: 5px;'>Add a
         meme</a>
+    <a href="{% url 'read_random' %}" , style='border: 1px solid black; display: inline-block; padding: 5px;'>Random
+        meme</a>
     <!-- <a href="{% url 'create_multiple' %}">Add Many Memes</a> -->
     <form action="{% url 'logout' %}" method="post" , style="display: flex; justify-content: right;">
         {% csrf_token %}
