@@ -10,6 +10,7 @@ class RequestLoggingMiddleware:
     def __call__(self, request):
         user = request.user
         username = user.username if user.is_authenticated else 'Anonymous'
-        logger.info(f"User '{username}' made a request to '{request.path}'")
+        logger.info(
+            f"{request.user} - {request.method} {request.path}")
         response = self.get_response(request)
         return response
