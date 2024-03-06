@@ -115,10 +115,28 @@ def create_multiple(request):
 def update(request, pk):
     meme = Meme.objects.get(pk=pk)
     if request.method == 'POST':
-        form = MemeEditForm(request.POST, instance=meme)
+        form = MemeEditForm(request.POST, request.FILES, instance=meme)
         if form.is_valid():
             form.save()
             return redirect('read')
     else:
         form = MemeEditForm(instance=meme)
     return render(request, 'meme_form.html', {'form': form})
+
+
+def update_all(request):
+    memes = Meme.objects.all()
+    if request.method == 'POST':
+        forms = [MemeEditForm(request.POST, request.FILES, instance=meme_instance,
+                              prefix=f'meme-{meme_instance.number}') for meme_instance in memes]
+        if all(form.is_valid() for form in forms):
+            for form in forms:
+                form.save()
+                # File modifications not working here
+            return redirect('read')
+    else:
+        forms = [MemeEditForm(
+            instance=meme_instance, prefix=f'meme-{meme_instance.number}') for meme_instance in memes]
+
+    packed = zip(forms, memes)
+    return render(request, 'meme_form_all.html', {'packed': packed})

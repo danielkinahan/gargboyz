@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Meme Edit All{% endblock %}
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme List</title>
+</head>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit All Memes</title>
+</head>
+
+<body>
+    <h1>Edit All Memes</h1>
+    <form method="post" , enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Meme</th>
+                    <th>Meme Type</th>
+                    <th>Idea</th>
+                    <th>Transcript</th>
+                    <th>Number</th>
+                    <th>Authors</th>
+                    <th>Declared number</th>
+                    <th>Idea date</th>
+                    <th>Season</th>
+                    <th>Meme constructed</th>
+                    <th>Subseason</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for form, meme in packed %}
+                <tr>
+                    <td>
+                        <img src="{{ meme.meme_path.url }}">
+                        {{ form.meme_path }}
+                    </td>
+                    <td>{{ form.meme_type }}</td>
+                    <td style="font-size: 12px;">
+                        <audio controls>
+                            <source src="{{ meme.voice_recording_path.url }}" type="audio/mp3">
+                            Your browser does not support the audio tag.
+                        </audio>
+                        {{ form.voice_recording_path }}
+                    </td>
+                    <td>{{ form.voice_recording_transcript }}</td>
+                    <td>{{ form.number }}</td>
+                    <td>{{ form.authors }}</td>
+                    <td>{{ form.declared_number }}</td>
+                    <td>{{ form.voice_recording_created_at }}</td>
+                    <td>{{ form.season }}</td>
+                    <td>{{ form.meme_created_at }}</td>
+                    <td>{{ form.subseason }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+</html>
+{% endblock %}
