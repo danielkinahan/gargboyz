@@ -3,5 +3,5 @@ pydub
 SpeechRecognition
 djangorestframework
 python-dotenv
-# whitenoise
+whitenoise
 gunicorn
