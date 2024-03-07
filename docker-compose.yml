@@ -1,9 +1,14 @@
 version: "3.8"
 
 services:
-  gargboyz:
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+  django:
     image: ghcr.io/danielkinahan/gargboyz:latest
-    container_name: gargboyz
     volumes:
       - ./.env:/app/.env
       - static_volume:/app/static
