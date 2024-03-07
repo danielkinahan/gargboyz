@@ -4,3 +4,9 @@ services:
   gargboyz:
     image: ghcr.io/danielkinahan/gargboyz:latest
     container_name: gargboyz
+    volumes:
+      - ./.env:/app/.env
+      - static_volume:/app/static
+      - media_volume:/app/media
+    ports:
+      - "9999:80"

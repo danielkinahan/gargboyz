@@ -2,3 +2,6 @@ django
 pydub
 SpeechRecognition
 djangorestframework
+python-dotenv
+# whitenoise
+gunicorn
