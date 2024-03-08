@@ -1,17 +1,23 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  nginx:
-    build: ./nginx
-    ports:
-      - 1337:80
-    depends_on:
-      - web
-  django:
-    image: ghcr.io/danielkinahan/gargboyz:latest
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./.env:/app/.env
-      - static_volume:/app/static
-      - media_volume:/app/media
+      - ./gargboyz/:/usr/src/app/
     ports:
-      - "9999:80"
+      - 8000:8000
+    env_file:
+      - ./.env.dev
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=gargboyz
+      - POSTGRES_PASSWORD=gargboyz
+      - POSTGRES_DB=gargboyz_dev
+
+volumes:
+  postgres_data:

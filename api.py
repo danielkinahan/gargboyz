@@ -1,6 +1,5 @@
 import requests
 
-
 meme_dir = "C:/Users/Daniel/Nextcloud/Coding/Archive/Gargboyz PHP Forum/Website.20200819/memeDir/"
 rec_dir = "C:/Users/Daniel/Nextcloud/Coding/Archive/Gargboyz PHP Forum/Website.20200819/memeRecDir/"
 
@@ -46,7 +45,7 @@ def post_all_memes():
     url = 'http://127.0.0.1:8000/memes/api/create/'
     count = 161
 
-    for i in range(1, count+1):
+    for i in range(1, count + 1):
         num_str = str(i).zfill(3)
         form_data = {
             'number': i
