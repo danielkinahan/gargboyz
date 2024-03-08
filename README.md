@@ -5,10 +5,19 @@ A django project to display gargboyz memorabilia.
 ## Usage
 
 ```bash
-docker-compose -f docker-compose.prod.yml up -d --build
+# For prod
+docker-compose -f docker-compose.prod.yml up -d
 docker-compose -f docker-compose.prod.yml exec web python manage.py migrate --noinput
 docker-compose -f docker-compose.prod.yml exec web python manage.py collectstatic --noinput --clear
 docker-compose -f docker-compose.prod.yml exec web python manage.py createsuperuser --noinput
+```
+
+```bash
+# For test
+docker-compose -f docker-compose.test.yml up -d --build
+docker-compose -f docker-compose.test.yml exec web python manage.py migrate --noinput
+docker-compose -f docker-compose.test.yml exec web python manage.py collectstatic --noinput --clear
+docker-compose -f docker-compose.test.yml exec web python manage.py createsuperuser --noinput
 ```
 
 ## Meme app
