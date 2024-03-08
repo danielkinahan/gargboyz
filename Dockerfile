@@ -1,20 +1,26 @@
-FROM python:3
+FROM python:slim-bookworm
 
-ENV DEBIAN_FRONTEND=noninteractive
+# set work directory
+WORKDIR /usr/src/app
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV DJANGO_SETTINGS_MODULE=gargboyz.settings
-ENV DEBUG=0
 
-RUN apt update && apt install -y ffmpeg 
+RUN apt-get update && apt-get install -y ffmpeg netcat-traditional
 
-COPY requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# install dependencies
+RUN pip install --upgrade pip
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
 
-COPY . app
-WORKDIR /app
+# copy entrypoint.sh
+COPY ./entrypoint.sh .
+RUN sed -i 's/\r$//g' /usr/src/app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
 
-RUN python manage.py collectstatic --no-input
+# copy project
+COPY . .
 
-EXPOSE 8000
-
-CMD ["gunicorn", "gargboyz.wsgi:application", "--bind", "0.0.0.0:8000"]
+# run entrypoint.sh
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]

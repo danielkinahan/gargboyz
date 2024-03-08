@@ -1,7 +1,7 @@
 django
-pydub
-SpeechRecognition
 djangorestframework
-python-dotenv
-whitenoise
 gunicorn
+psycopg2-binary
+pydub
+python-dotenv
+SpeechRecognition

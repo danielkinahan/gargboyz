@@ -1,6 +1,15 @@
 # gargboyz
 
-A django project to display gargboyz memorabilia.
+A django project to display gargboyz memorabilia. 
+
+## Usage
+
+```bash
+docker-compose -f docker-compose.prod.yml up -d --build
+docker-compose -f docker-compose.prod.yml exec web python manage.py migrate --noinput
+docker-compose -f docker-compose.prod.yml exec web python manage.py collectstatic --noinput --clear
+docker-compose -f docker-compose.prod.yml exec web python manage.py createsuperuser --noinput
+```
 
 ## Meme app
 
@@ -23,3 +32,8 @@ An app that displays and allows uploads of memes.
 | authors                    | list of foreign keys | comma seperated list of authors              |
 | season                     | PositiveSmallInteger | meme season 1,2,3 e.t.c                      |
 | subseason                  | string               | irish rick and morty, daniels tooltips e.t.c |
+
+
+## Credits
+
+Big thank you to testdrivenio for writing [this guide](https://github.com/testdrivenio/django-on-docker)!
