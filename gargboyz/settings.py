@@ -67,7 +67,6 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'gargboyz.middleware.RequestLoggingMiddleware',
 ]
 
 ROOT_URLCONF = 'gargboyz.urls'
@@ -107,10 +106,10 @@ LOGGING = {
         },
     },
     'loggers': {
-        'gargboyz': {
+        'gunicorn': {
             'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': True,
+            'level': 'INFO',
+            'propagate': False,
         },
     },
 }

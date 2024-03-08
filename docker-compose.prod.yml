@@ -3,7 +3,7 @@ version: '3.8'
 services:
   web:
     image: ghcr.io/danielkinahan/gargboyz:latest
-    command: gunicorn gargboyz.wsgi:application --workers=4 --bind 0.0.0.0:8000 --preload
+    command: gunicorn gargboyz.wsgi:application --workers=4 --bind 0.0.0.0:8000 --preload --access-logfile '-' --error-logfile '-'
     volumes:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
