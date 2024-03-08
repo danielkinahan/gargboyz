@@ -1,10 +1,10 @@
 import requests
 
-meme_dir = "C:/Users/Daniel/Nextcloud/Coding/Archive/Gargboyz PHP Forum/Website.20200819/memeDir/"
-rec_dir = "C:/Users/Daniel/Nextcloud/Coding/Archive/Gargboyz PHP Forum/Website.20200819/memeRecDir/"
+meme_dir = "/mnt/c/Users/Daniel/Nextcloud/Coding/Archive/Gargboyz PHP Forum/Website.20200819/memeDir/"
+rec_dir = "/mnt/c/Users/Daniel/Nextcloud/Coding/Archive/Gargboyz PHP Forum/Website.20200819/memeRecDir/"
 
-username = ''
-password = ''
+username = 'daniel'
+password = 'digitalampsneverkill'
 
 
 def test_create():
@@ -42,14 +42,15 @@ def test_read():
 
 def post_all_memes():
     # Get the memes from ben on a thumb drive before doing this
-    url = 'http://127.0.0.1:8000/memes/api/create/'
+    url = 'https://gargboyz.danielkinahan.ca/memes/api/create/'
     count = 161
 
-    for i in range(1, count + 1):
+    for i in range(2, count + 1):
         num_str = str(i).zfill(3)
         form_data = {
             'number': i
         }
+
         if i != 112:
             files = {
                 'meme_path': open(f'{meme_dir}{num_str}meme.jpeg', 'rb'),
@@ -63,9 +64,10 @@ def post_all_memes():
         response = requests.post(
             url, data=form_data, files=files, auth=(username, password))
 
+        print(response)
         print(response.json())
 
 
-test_read()
-test_create()
-# post_all_memes()
+# test_read()
+# test_create()
+post_all_memes()
