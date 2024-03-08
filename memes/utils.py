@@ -21,7 +21,10 @@ def transcribe_audio(voice_recording_path):
         r = sr.Recognizer()
         with sr.AudioFile(temp_audio) as source:
             audio = r.record(source)  # Read the entire audio file
-        transcript = r.recognize_google(audio)
+        try:
+            transcript = r.recognize_google(audio)
+        except:
+            return "Transcription failed"
         os.remove(temp_audio)
 
         return transcript
