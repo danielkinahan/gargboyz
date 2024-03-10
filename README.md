@@ -12,6 +12,20 @@ docker-compose -f docker-compose.prod.yml exec web python manage.py collectstati
 docker-compose -f docker-compose.prod.yml exec web python manage.py createsuperuser --noinput
 ```
 
+## Development
+
+```bash
+# For dev
+docker-compose up -d --build
+docker-compose exec web python manage.py flush --noinput
+docker-compose exec web python manage.py migrate --noinput
+docker-compose exec web python manage.py createsuperuser --noinput
+# For cleaning up
+docker-compose down -v
+docker system prune --all --force --volumes
+docker volume  prune --all --force
+```
+
 ```bash
 # For test
 docker-compose -f docker-compose.test.yml up -d --build
