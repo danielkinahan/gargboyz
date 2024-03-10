@@ -26,6 +26,7 @@ services:
       - media_volume:/home/app/web/mediafiles
     ports:
       - 9189:443
+      - 9188:80
     depends_on:
       - web
 
