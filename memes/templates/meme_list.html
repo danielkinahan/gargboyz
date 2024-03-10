@@ -23,67 +23,107 @@
         {% csrf_token %}
         <button type="submit">Log Out</button>
     </form>
-    <table>
-        <thead>
-            <tr>
-                <th>Meme</th>
-                <th>Idea</th>
-                <th>Transcript</th>
-                <th>Number</th>
-                <th>Authors</th>
-                <th>Declared number</th>
-                <th>Idea date</th>
-                <th>Season</th>
-                <th>Meme constructed</th>
-                <th>Subseason</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for meme in memes %}
-            <tr>
-                <td>
-                    {% if meme.meme_type == 'jpeg' %}
-                    <img src="{{ meme.meme_path.url }}" alt="Meme {{ meme.number }}">
-                    {% elif meme.meme_type == 'gif' %}
-                    <img src="{{ meme.meme_path.url }}" alt="Meme {{ meme.number }}">
-                    {% elif meme.meme_type == 'video' %}
-                    <video controls>
-                        <source src="{{ meme.meme_path.url }}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if meme.voice_recording_path %}
-                    <audio controls>
-                        <source src="{{ meme.voice_recording_path.url }}" type="audio/mp3">
-                        Your browser does not support the audio tag.
-                    </audio>
-                    {% else %}
-                    No voice recording available.
-                    {% endif %}
-                </td>
-                <td>{{ meme.voice_recording_transcript }}</td>
-                <td>{{ meme.number }}</td>
-                <td>
-                    {% for author in meme.authors.all %}
-                    {{ author.name }}
-                    {% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-                </td>
-                <td>{{ meme.declared_number }}</td>
-                <td>{{ meme.voice_recording_created_at }}</td>
-                <td>{{ meme.season }}</td>
-                <td>{{ meme.meme_created_at }}</td>
-                <td>{{ meme.subseason }}</td>
-                <td>
-                    <a href="{% url 'update' meme.pk %}">Edit</a>
-                </td>
-            </tr>
+
+    <a href="?sort_by=number&direction=asc">Sort by Meme Number (Ascending)</a>
+    <a href="?sort_by=number&direction=desc">Sort by Meme Number (Descending)</a>
+
+    <form action="{% url 'read' %}" method="get">
+        <label for="author">Filter by Author:</label>
+        <select name="author" id="author">
+            <option value="">All Authors</option>
+            {% for author in authors %}
+            <option value="{{ author }}">{{ author }}</option>
             {% endfor %}
-        </tbody>
-    </table>
+        </select>
+        <button type="submit">Apply Filter</button>
+    </form>
+
+    <form action="{% url 'read' %}" method="get">
+        <label for="page_size">Page Size:</label>
+        <select name="page_size" id="page_size">
+            <option value="5" {% if page_size == 5 %} selected {% endif %}>5</option>
+            <option value="10" {% if page_size == 10 %} selected {% endif %}>10</option>
+            <option value="15" {% if page_size == 15 %} selected {% endif %}>15</option>
+            <option value="all" {% if page_size == 'all' %} selected {% endif %}>All</option>
+        </select>
+        <button type="submit">Apply</button>
+    </form>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if memes.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ memes.previous_page_number }}">previous</a>
+            {% endif %}
+            {% if memes.has_next %}
+            <a href="?page={{ memes.next_page_number }}">next</a>
+            <a href="?page={{ memes.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+            <span class="current">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Meme</th>
+                            <th>Idea</th>
+                            <th>Transcript</th>
+                            <th>Number</th>
+                            <th>Authors</th>
+                            <th>Declared number</th>
+                            <th>Idea date</th>
+                            <th>Season</th>
+                            <th>Meme constructed</th>
+                            <th>Subseason</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for meme in memes %}
+                        <tr>
+                            <td>
+                                {% if meme.meme_type == 'jpeg' %}
+                                <img src="{{ meme.meme_path.url }}" alt="Meme {{ meme.number }}">
+                                {% elif meme.meme_type == 'gif' %}
+                                <img src="{{ meme.meme_path.url }}" alt="Meme {{ meme.number }}">
+                                {% elif meme.meme_type == 'video' %}
+                                <video controls>
+                                    <source src="{{ meme.meme_path.url }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if meme.voice_recording_path %}
+                                <audio controls>
+                                    <source src="{{ meme.voice_recording_path.url }}" type="audio/mp3">
+                                    Your browser does not support the audio tag.
+                                </audio>
+                                {% else %}
+                                No voice recording available.
+                                {% endif %}
+                            </td>
+                            <td>{{ meme.voice_recording_transcript }}</td>
+                            <td>{{ meme.number }}</td>
+                            <td>
+                                {% for author in meme.authors.all %}
+                                {{ author.name }}
+                                {% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>{{ meme.declared_number }}</td>
+                            <td>{{ meme.voice_recording_created_at }}</td>
+                            <td>{{ meme.season }}</td>
+                            <td>{{ meme.meme_created_at }}</td>
+                            <td>{{ meme.subseason }}</td>
+                            <td>
+                                <a href="{% url 'update' meme.pk %}">Edit</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </span>
+        </span>
+    </div>
 </body>
 
 </html>
