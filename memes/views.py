@@ -64,10 +64,12 @@ def api_create(request):
         if meme_path:
             serializer.validated_data['meme_type'] = get_extension(
                 meme_path)
-
-        if voice_recording_path:
-            serializer.validated_data['voice_recording_transcript'] = transcribe_audio(
-                voice_recording_path)
+        try: 
+            if voice_recording_path:
+                    serializer.validated_data['voice_recording_transcript'] = transcribe_audio(
+                        voice_recording_path)
+        except:
+            serializer.validated_data['voice_recording_transcript'] = " "
 
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
