@@ -30,6 +30,8 @@ CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", default="http://lo
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 
+DATA_UPLOAD_MAX_NUMBER_FIELDS = None
+
 # Application definition
 
 INSTALLED_APPS = [
