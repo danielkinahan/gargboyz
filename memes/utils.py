@@ -12,7 +12,7 @@ def transcribe_audio(voice_recording_path):
     audio_extension = get_extension(voice_recording_path)
 
     if audio_extension.lower() != 'mp3':
-        return "Transcription failed"
+        return "Incorrect extension"
 
     else:
         temp_audio = "temp.wav"
