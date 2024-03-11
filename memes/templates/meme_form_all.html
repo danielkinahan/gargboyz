@@ -1,27 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %}Meme Edit All{% endblock %}
+{% block title %}Edit All Memes{% endblock %}
 
 {% block content %}
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meme List</title>
-</head>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Edit All Memes</title>
-</head>
+{% load render_table from django_tables2 %}
+{% load django_bootstrap5 %}
 
 <body>
     <h1>Edit All Memes</h1>
     <form method="post" , enctype="multipart/form-data">
         {% csrf_token %}
+        {% bootstrap_button 'submit' %}
         <table>
             <thead>
                 <tr>
@@ -75,7 +64,7 @@
                 {% endfor %}
             </tbody>
         </table>
-        <button type="submit">Submit</button>
+        {% bootstrap_button 'submit' %}
     </form>
 </body>
 

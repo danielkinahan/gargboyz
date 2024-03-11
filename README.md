@@ -53,7 +53,7 @@ An app that displays and allows uploads of memes.
 
 ### Roadmap
 
- - Improve performance with image thumbnails and audio/video loading on demand.
+ - ~~Improve performance with image thumbnails and audio/video loading on demand~~
  - Add charts
 
 ### Tables

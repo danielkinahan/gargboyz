@@ -1,0 +1,9 @@
+{% load static %}
+{% if record.voice_recording_path %}
+<audio controls preload="none">
+    <source src="{{ record.voice_recording_path.url }}" type="audio/mp3">
+    Your browser does not support the audio tag.
+</audio>
+{% else %}
+No voice recording available.
+{% endif %}

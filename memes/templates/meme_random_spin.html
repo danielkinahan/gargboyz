@@ -1,63 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
+{% block title %}Randomizer{% endblock %}
 
-    <title>Meme Randomizer</title>
+{% block content %}
 
-    <style>
-        text {
-            font-family: Helvetica, Arial, sans-serif;
-            font-size: 11px;
-            pointer-events: none;
-        }
+{% load django_bootstrap5 %}
 
-        #chart {
-            /* position: absolute; */
-            width: 500px;
-            height: 500px;
-            top: 0;
-            left: 0;
-        }
+<style>
+    text {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 11px;
+        pointer-events: none;
+    }
 
-        #image {
-            position: absolute;
-            width: 400px;
-            height: 500px;
-            top: 0;
-            left: 520px;
-            margin-top: 50px;
-            font-size: 50px;
-        }
+    #chart {
+        /* position: absolute; */
+        width: 500px;
+        height: 500px;
+        top: 0;
+        left: 0;
+    }
 
-        image {
-            height: auto;
-        }
+    #image {
+        position: absolute;
+        width: 400px;
+        height: 500px;
+        top: 0;
+        left: 520px;
+        margin-top: 50px;
+        font-size: 50px;
+    }
 
-        #details {
-            font-size: 50px;
-            font-weight: bold;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            position: absolute;
-            padding: 0;
-            margin: 0;
-            top: 50%;
-            -webkit-transform: translate(0, -50%);
-            transform: translate(0, -50%);
-            left: 50%;
-            margin-right: 10px;
-        }
-    </style>
+    image {
+        height: auto;
+    }
 
-    <script>
-        window.console = window.console || function (t) { };
-    </script>
+    #details {
+        font-size: 50px;
+        font-weight: bold;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        padding: 0;
+        margin: 0;
+        top: 50%;
+        -webkit-transform: translate(0, -50%);
+        transform: translate(0, -50%);
+        left: 50%;
+        margin-right: 10px;
+    }
+</style>
 
-</head>
-<p><a href="{% url 'read' %}">Back to meme list</a></p>
+<script>
+    window.console = window.console || function (t) { };
+</script>
 
 <body translate="no">
+    <h1>Randomizer</h1>
+    <p><a href="{% url 'read' %}">{% bootstrap_button 'back to meme list' %}</a></p>
     <div id="container" style="display: flex;">
         <div id="chart" style="flex: 1;"></div>
         <div id="image"></div>
@@ -141,7 +140,7 @@
                         .attr("src", data[picked].meme_path)
                         .attr("width", "100%")
                         .attr("height", "auto")
-                        .attr("style", "height: auto");
+                        .attr("style", "height: auto;max-width: 100%;max-height: 100%;");
                     d3.select("#image")
                         .append("audio")
                         .attr("src", data[picked].voice_recording_path)
@@ -206,9 +205,7 @@
             }
             return array;
         }
-
     </script>
-
 </body>
 
-</html>
+{% endblock %}
