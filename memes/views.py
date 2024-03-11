@@ -51,6 +51,7 @@ def read(request):
     else:
         memes = memes.order_by(f'-{sort_by}')
 
+    # Pagination logic is currently unused
     page_size = params.get('page_size')
 
     if page_size == 'all':
@@ -79,13 +80,15 @@ def read(request):
 
 @login_required
 def read_random(request):
-    memes = Meme.objects.all().exclude(meme_path__isnull=True)
+    memes = Meme.objects.all().exclude(meme_path__isnull=True).exclude(meme_type="mp4")
+
     data = []
     for meme in memes:
         # Append data to list
         data.append({
             'number': meme.number,
             'meme_path': meme.meme_path.url,
+            'meme_thumbnail': meme.meme_thumbnail.url,
             'voice_recording_path': meme.voice_recording_path.url,
             'voice_recording_transcript': meme.voice_recording_transcript,
         })
@@ -168,7 +171,7 @@ def update(request, pk):
 
 
 def update_all(request):
-    memes = Meme.objects.all()
+    memes = Meme.objects.all().order_by('number')
     if request.method == 'POST':
         forms = [MemeEditForm(request.POST, request.FILES, instance=meme_instance,
                               prefix=f'meme-{meme_instance.number}') for meme_instance in memes]
