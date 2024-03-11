@@ -41,9 +41,9 @@
     <form action="{% url 'read' %}" method="get">
         <label for="page_size">Page Size:</label>
         <select name="page_size" id="page_size">
-            <option value="5" {% if page_size == 5 %} selected {% endif %}>5</option>
             <option value="10" {% if page_size == 10 %} selected {% endif %}>10</option>
-            <option value="15" {% if page_size == 15 %} selected {% endif %}>15</option>
+            <option value="50" {% if page_size == 15 %} selected {% endif %}>50</option>
+            <option value="100" {% if page_size == 100 %} selected {% endif %}>100</option>
             <option value="all" {% if page_size == 'all' %} selected {% endif %}>All</option>
         </select>
         <button type="submit">Apply</button>
