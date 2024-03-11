@@ -15,7 +15,16 @@ docker-compose -f docker-compose.prod.yml exec web python manage.py createsuperu
 ## Development
 
 ```bash
-# For dev
+# Local development
+python manage.py migrate
+python manage.py createsuperuser --noinput
+python manage.py runserver
+# For cleaning up
+rm -rf mediafiles db.sqlite3
+```
+
+```bash
+# For dev. Testing db changes e.t.c
 docker-compose up -d --build
 docker-compose exec web python manage.py flush --noinput
 docker-compose exec web python manage.py migrate --noinput
@@ -27,7 +36,7 @@ docker volume  prune --all --force
 ```
 
 ```bash
-# For test
+# For test. Testing gunicorn, nginx, logging, static files e.t.c
 docker-compose -f docker-compose.test.yml up -d --build
 docker-compose -f docker-compose.test.yml exec web python manage.py migrate --noinput
 docker-compose -f docker-compose.test.yml exec web python manage.py collectstatic --noinput --clear
@@ -41,6 +50,11 @@ docker volume  prune --all --force
 ## Meme app
 
 An app that displays and allows uploads of memes.
+
+### Roadmap
+
+ - Improve performance with image thumbnails and audio/video loading on demand.
+ - Add charts
 
 ### Tables
 

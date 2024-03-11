@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'imagekit',
     'accounts',
     'memes',
 ]
@@ -108,7 +109,19 @@ LOGGING = {
         },
     },
     'loggers': {
-        'gunicorn': {
+        # Django logger
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        # Gunicorn logger
+        'gunicorn.error': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'gunicorn.access': {
             'handlers': ['console'],
             'level': 'INFO',
             'propagate': False,

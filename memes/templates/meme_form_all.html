@@ -42,12 +42,22 @@
                 {% for form, meme in packed %}
                 <tr>
                     <td>
-                        <img src="{{ meme.meme_path.url }}">
-                        {{ form.meme_path }}
+                        {% if meme.meme_type == 'jpeg' %}
+                        <a href="{{ meme.meme_path.url }}"><img class="thumbnail" src="{{ meme.meme_thumbnail.url }}"
+                                alt="Meme {{ meme.number }}">
+                            {% elif meme.meme_type == 'gif' %}
+                            <img src="{{ meme.meme_path.url }}" alt="Meme {{ meme.number }}">
+                            {% elif meme.meme_type == 'mp4' %}
+                            <video controls>
+                                <source src="{{ meme.meme_path.url }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            {% endif %}
+                            {{ form.meme_path }}
                     </td>
                     <td>{{ form.meme_type }}</td>
                     <td style="font-size: 12px;">
-                        <audio controls>
+                        <audio controls preload="none">
                             <source src="{{ meme.voice_recording_path.url }}" type="audio/mp3">
                             Your browser does not support the audio tag.
                         </audio>

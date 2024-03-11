@@ -1,4 +1,6 @@
 from django.db import models
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFit
 
 
 class Author(models.Model):
@@ -12,6 +14,10 @@ class Meme(models.Model):
     number = models.PositiveSmallIntegerField(primary_key=True)
     declared_number = models.PositiveBigIntegerField(blank=True, null=True)
     meme_path = models.FileField(upload_to='memes/', blank=True)
+    meme_thumbnail = ImageSpecField(source='meme_path',
+                                    processors=[ResizeToFit(100, 100)],
+                                    format='JPEG',
+                                    options={'quality': 90})
     meme_type = models.CharField(max_length=50, blank=True)
     meme_created_at = models.DateField(blank=True)
     voice_recording_path = models.FileField(
