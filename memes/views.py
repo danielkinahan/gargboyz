@@ -44,6 +44,8 @@ def read(request):
     sort = request.GET.get('sort')
     if sort:
         memes = memes.order_by(sort)
+    else:
+        memes = memes.order_by('number')
 
     table = MemeTable(memes)
     return render(request, 'meme_list.html', {'table': table, 'filter': filter})
