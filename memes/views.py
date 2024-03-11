@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import QueryDict
 from django.contrib.auth.decorators import login_required
 from rest_framework import status
@@ -8,13 +7,14 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-import random
 import json
 
 from .forms import MemeAddForm, MemeEditForm, MemeAddFormSet
 from .models import Meme, Author
 from .utils import get_extension, transcribe_audio
 from .serializers import MemeSerializer
+from .tables import MemeTable
+from .filters import MemeFilter
 
 
 @api_view(['GET'])
@@ -35,47 +35,18 @@ def api_read(request):
 @login_required
 def read(request):
     # Get existing query parameters
-    params = QueryDict(request.GET.urlencode(), mutable=True)
-
-    sort_by = params.get('sort_by', 'number')
-    direction = params.get('direction', 'desc')
-    filter_author = params.get('author', None)
-
     memes = Meme.objects.all()
 
-    if filter_author:
-        memes = memes.filter(authors__name=filter_author)
+    # Apply filters using django-filters
+    filter = MemeFilter(request.GET, queryset=memes)
+    memes = filter.qs
 
-    if direction == 'asc':
-        memes = memes.order_by(sort_by)
-    else:
-        memes = memes.order_by(f'-{sort_by}')
+    sort = request.GET.get('sort')
+    if sort:
+        memes = memes.order_by(sort)
 
-    # Pagination logic is currently unused
-    page_size = params.get('page_size')
-
-    if page_size == 'all':
-        # If 'all' is selected, display all memes without pagination
-        memes = memes.all()  # Retrieve all memes without pagination
-        page_size = None  # Set page_size to None to indicate all memes
-    else:
-        # Convert to integer if not 'all'
-        if not page_size:
-            page_size = 10
-        page_size = int(page_size)
-        paginator = Paginator(memes, page_size)
-        page = params.get('page')
-
-        try:
-            memes = paginator.page(page)
-        except PageNotAnInteger:
-            memes = paginator.page(1)
-        except EmptyPage:
-            memes = paginator.page(paginator.num_pages)
-
-    authors = Author.objects.all()
-
-    return render(request, 'meme_list.html', {'memes': memes, 'authors': authors, 'page_size': page_size, 'params': params})
+    table = MemeTable(memes)
+    return render(request, 'meme_list.html', {'table': table, 'filter': filter})
 
 
 @login_required

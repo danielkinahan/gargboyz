@@ -42,9 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_tables2',
+    'django_filters',
     'imagekit',
     'accounts',
     'memes',
+    'django_bootstrap5',
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

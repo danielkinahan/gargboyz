@@ -4,102 +4,34 @@
 
 {% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meme List</title>
-</head>
+{% load render_table from django_tables2 %}
+{% load django_bootstrap5 %}
 
 <body>
-    <h1>Meme List</h1>
-    <a href="{% url 'create' %}" , style='border: 1px solid black; display: inline-block; padding: 5px;'>Add a
-        meme</a>
-    <a href="{% url 'update_all' %}" , style='border: 1px solid black; display: inline-block; padding: 5px;'>Edit all
-        memes</a>
-    <a href="{% url 'read_random' %}" , style='border: 1px solid black; display: inline-block; padding: 5px;'>Random
-        meme</a>
-    <!-- <a href="{% url 'create_multiple' %}">Add Many Memes</a> -->
-    <form action="{% url 'logout' %}" method="post" , style="display: flex; justify-content: right;">
-        {% csrf_token %}
-        <button type="submit">Log Out</button>
-    </form>
+    <div class="container-fluid">
+        <h1>Meme List</h1>
+        <a href="{% url 'create' %}" ,
+            style='border: 1px solid black; display: inline-block; padding: 5px;'>{% bootstrap_button 'add meme' %}</a>
+        <a href="{% url 'update_all' %}" ,
+            style='border: 1px solid black; display: inline-block; padding: 5px;'>{% bootstrap_button 'edit all memes' %}</a>
+        <a href="{% url 'read_random' %}" ,
+            style='border: 1px solid black; display: inline-block; padding: 5px;'>{% bootstrap_button 'randomizer' %}</a>
+        <!-- <a href="{% url 'create_multiple' %}">Add Many Memes</a> -->
+        <form action="{% url 'logout' %}" method="post" , style="display: flex; justify-content: right;">
+            {% csrf_token %}
+            <button type="submit">log out</button>
+        </form>
 
-    <a href="?sort_by=number&direction=asc">Sort by Meme Number (Ascending)</a>
-    <a href="?sort_by=number&direction=desc">Sort by Meme Number (Descending)</a>
+        {% if filter %}
+        <form action="" method="get" class="form form-check form-inline">
+            {% bootstrap_form filter.form layout='inline' %}
+            {% bootstrap_button 'filter' %}
+        </form>
+        <a href="{% url 'read' %}">{% bootstrap_button 'clear filters' %}</a>
+        {% endif %}
 
-    <form action="{% url 'read' %}" method="get">
-        <label for="author">Filter by Author:</label>
-        <select name="author" id="author">
-            <option value="">All Authors</option>
-            {% for author in authors %}
-            <option value="{{ author }}">{{ author }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Apply Filter</button>
-    </form>
-
-    <table style="margin-bottom: 4%;">
-        <thead>
-            <tr>
-                <th>Meme</th>
-                <th>Idea</th>
-                <th>Transcript</th>
-                <th>Number</th>
-                <th>Authors</th>
-                <th>Declared number</th>
-                <th>Idea date</th>
-                <th>Season</th>
-                <th>Meme constructed</th>
-                <th>Subseason/Template</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for meme in memes %}
-            <tr>
-                <td>
-                    {% if meme.meme_type == 'jpeg' %}
-                    <a href="{{ meme.meme_path.url }}"><img class="thumbnail" src="{{ meme.meme_thumbnail.url }}"
-                            alt="Meme {{ meme.number }}">
-                        {% elif meme.meme_type == 'gif' %}
-                        <img src="{{ meme.meme_path.url }}" alt="Meme {{ meme.number }}">
-                        {% elif meme.meme_type == 'mp4' %}
-                        <video controls>
-                            <source src="{{ meme.meme_path.url }}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                        {% endif %}
-                </td>
-                <td>
-                    {% if meme.voice_recording_path %}
-                    <audio controls preload="none">
-                        <source src="{{ meme.voice_recording_path.url }}" type="audio/mp3">
-                        Your browser does not support the audio tag.
-                    </audio>
-                    {% else %}
-                    No voice recording available.
-                    {% endif %}
-                </td>
-                <td>{{ meme.voice_recording_transcript }}</td>
-                <td>{{ meme.number }}</td>
-                <td>
-                    {% for author in meme.authors.all %}
-                    {{ author.name }}
-                    {% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-                </td>
-                <td>{{ meme.declared_number }}</td>
-                <td>{{ meme.voice_recording_created_at }}</td>
-                <td>{{ meme.season }}</td>
-                <td>{{ meme.meme_created_at }}</td>
-                <td>{{ meme.subseason }}</td>
-                <td>
-                    <a href="{% url 'update' meme.pk %}">Edit</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        {% render_table table %}
+    </div>
 </body>
 
 </html>
