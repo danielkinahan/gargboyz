@@ -54,6 +54,10 @@ An app that displays and allows uploads of memes.
 ### Roadmap
 
  - ~~Improve performance with image thumbnails and audio/video loading on demand~~
+ - Rating system or 
+    - Hall of fame where each boy gets to mark 1-3 memes as the best meme ever made and we display them specially
+ - How out of 10 were you rating scale
+ - Pinning table line of played media to bottom of screen
  - Add charts
 
 ### Tables
