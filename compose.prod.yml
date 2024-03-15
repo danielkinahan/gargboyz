@@ -13,12 +13,16 @@ services:
       - ./.env.prod
     depends_on:
       - db
+    networks:
+      - gargboyz
   db:
     image: postgres:15
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./.env.prod.db
+    networks:
+      - gargboyz
   nginx:
     image: ghcr.io/danielkinahan/gargboyz-nginx:latest
     volumes:
@@ -29,8 +33,19 @@ services:
       - 9188:80
     depends_on:
       - web
+    networks:
+      - gargboyz
+      - caddy
 
 volumes:
   postgres_data:
   static_volume:
   media_volume:
+
+
+networks:
+  gargboyz:
+    name: gargboyz
+  caddy:
+    name: caddy
+    external: true
