@@ -9,22 +9,17 @@ def get_extension(meme_path):
 
 def transcribe_audio(voice_recording_path):
 
-    audio_extension = get_extension(voice_recording_path)
-
-    if audio_extension.lower() != 'mp3':
-        return "Incorrect extension"
-
-    else:
-        temp_audio = "temp.wav"
-        sound = AudioSegment.from_mp3(voice_recording_path)
-        sound.export(temp_audio, format="wav")
-        r = sr.Recognizer()
-        with sr.AudioFile(temp_audio) as source:
-            audio = r.record(source)  # Read the entire audio file
-        try:
-            transcript = r.recognize_google(audio)
-        except:
-            return "Transcription failed"
+    sound = AudioSegment.from_file(voice_recording_path)
+    temp_audio = "temp.wav"
+    sound.export(temp_audio, format="wav")
+    r = sr.Recognizer()
+    with sr.AudioFile(temp_audio) as source:
+        audio = r.record(source)  # Read the entire audio file
+    try:
+        transcript = r.recognize_google(audio)
         os.remove(temp_audio)
+    except:
+        os.remove(temp_audio)
+        return "Transcription failed"
 
-        return transcript
+    return transcript

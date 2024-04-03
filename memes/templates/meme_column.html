@@ -9,4 +9,9 @@
     <source src="{{ record.meme_path.url }}" preload="none" type="video/mp4">
     Your browser does not support the video tag.
 </video>
+{% elif record.meme_type == 'mov' %}
+<video controls>
+    <source src="{{ record.meme_path.url }}" preload="none" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
 {% endif %}
