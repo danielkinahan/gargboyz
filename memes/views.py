@@ -45,7 +45,7 @@ def read(request):
     if sort:
         memes = memes.order_by(sort)
     else:
-        memes = memes.order_by('number')
+        memes = memes.order_by('-number')
 
     table = MemeTable(memes)
     return render(request, 'meme_list.html', {'table': table, 'filter': filter})
@@ -53,18 +53,32 @@ def read(request):
 
 @login_required
 def read_random(request):
-    memes = Meme.objects.all().exclude(meme_path__isnull=True).exclude(meme_type="mp4")
+    memes = Meme.objects.all()
 
     data = []
     for meme in memes:
         # Append data to list
-        data.append({
+        meme_meta = {
             'number': meme.number,
-            'meme_path': meme.meme_path.url,
-            'meme_thumbnail': meme.meme_thumbnail.url,
-            'voice_recording_path': meme.voice_recording_path.url,
             'voice_recording_transcript': meme.voice_recording_transcript,
-        })
+        }
+
+        try:
+            meme_meta['meme_path'] = meme.meme_path.url
+        except:
+            meme_meta['meme_path'] = ""
+
+        try:
+            meme_meta['meme_thumbnail'] = meme.meme_thumbnail.url
+        except:
+            meme_meta['meme_thumbnail'] = ""
+
+        try:
+            meme_meta['voice_recording_path'] = meme.voice_recording_path.url
+        except:
+            meme_meta['voice_recording_path'] = ""
+
+        data.append(meme_meta)
     return render(request, 'meme_random_spin.html', {'data': json.dumps(data)})
 
 
