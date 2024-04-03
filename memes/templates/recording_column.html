@@ -1,6 +1,6 @@
 {% load static %}
 {% if record.voice_recording_path %}
-<audio controls preload="none">
+<audio controls preload="none" style='width:max-content;'>
     <source src="{{ record.voice_recording_path.url }}" type="audio/mp3">
     Your browser does not support the audio tag.
 </audio>
