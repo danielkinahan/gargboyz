@@ -10,4 +10,5 @@ urlpatterns = [
     path('update/all/', update_all, name='update_all'),
     path('api/create/', api_create, name='api_create'),
     path('api/read/', api_read, name='api_read'),
+    path('rate/<int:pk>/<int:rating>/', rate, name='rate'),
 ]
