@@ -1,5 +1,5 @@
 from django import forms
-from .models import Meme
+from .models import Meme, Rating
 from django.forms import formset_factory
 
 
@@ -43,6 +43,11 @@ class MemeAddForm(forms.ModelForm):
     field_order = ('number', 'meme_path', 'voice_recording_path',  
         'authors', 'declared_number', 'voice_recording_created_at', 'season', 'meme_created_at', 'subseason')
 
-
-
 MemeAddFormSet = formset_factory(MemeAddForm)
+
+
+class RatingForm(forms.ModelForm):
+
+    class Meta:
+        model = Rating
+        fields = ['rating']

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import QueryDict
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from rest_framework import status
 from rest_framework.response import Response
@@ -9,8 +9,8 @@ from rest_framework.permissions import IsAuthenticated
 
 import json
 
-from .forms import MemeAddForm, MemeEditForm, MemeAddFormSet
-from .models import Meme, Author
+from .forms import MemeAddForm, MemeEditForm, MemeAddFormSet, RatingForm
+from .models import Meme, Author, Rating
 from .utils import get_extension, transcribe_audio
 from .serializers import MemeSerializer
 from .tables import MemeTable
@@ -48,7 +48,9 @@ def read(request):
         memes = memes.order_by('-number')
 
     table = MemeTable(memes)
-    return render(request, 'meme_list.html', {'table': table, 'filter': filter})
+    rating_form = RatingForm()
+        
+    return render(request, 'meme_list.html', {'table': table, 'filter': filter, 'rating_form': rating_form})
 
 
 @login_required
@@ -173,3 +175,12 @@ def update_all(request):
 
     packed = zip(forms, memes)
     return render(request, 'meme_form_all.html', {'packed': packed})
+
+def rate(request, pk, rating):
+
+    meme = Meme.objects.get(pk=pk)
+    user = request.user
+    Rating.objects.filter(meme=meme, user=user).delete()
+    meme.rating_set.create(user=user, rating=rating)
+    new_average_rating = meme.average_rating()
+    return JsonResponse({'average_rating': new_average_rating})

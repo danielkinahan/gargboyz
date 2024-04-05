@@ -6,6 +6,24 @@
 
 {% load render_table from django_tables2 %}
 {% load django_bootstrap5 %}
+<script>
+    const rate = (rating, meme_number) => {
+        fetch(`/memes/rate/${meme_number}/${rating}/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            return response.json(); // Parse JSON asynchronously
+        }).then(data => {
+            const responseMessage = document.getElementById(`response-message-${meme_number}`);
+            responseMessage.textContent = data.average_rating;
+        }).catch(error => {
+            console.error('Error:', error);
+            // Handle errors
+        });
+    }
+</script>
 
 <body>
     <div class="container-fluid">

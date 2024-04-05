@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models import Avg
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
 
@@ -28,5 +30,24 @@ class Meme(models.Model):
     season = models.PositiveSmallIntegerField(blank=True, null=True)
     subseason = models.CharField(max_length=100, blank=True)
 
+
+    def average_rating(self) -> float:
+        return Rating.objects.filter(meme=self).aggregate(Avg("rating"))["rating__avg"] or 0
+    
+    # def user_rating(self, user):
+    #     try:
+    #         rating = Rating.objects.get(meme=self, user=user)
+    #         return rating.rating
+    #     except Rating.DoesNotExist:
+    #         return 0
+
     def __str__(self):
         return f"Meme {self.number}"
+
+class Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    meme = models.ForeignKey(Meme, on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.meme.number}: {self.rating}"
