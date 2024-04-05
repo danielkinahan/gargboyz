@@ -48,9 +48,11 @@ def read(request):
         memes = memes.order_by('-number')
 
     table = MemeTable(memes)
-    rating_form = RatingForm()
+
+    user_ratings = {meme.pk: meme.user_rating(request.user) for meme in memes}
+    print(user_ratings)
         
-    return render(request, 'meme_list.html', {'table': table, 'filter': filter, 'rating_form': rating_form})
+    return render(request, 'meme_list.html', {'table': table, 'filter': filter, 'user_ratings': user_ratings})
 
 
 @login_required

@@ -16,7 +16,7 @@
         }).then(response => {
             return response.json(); // Parse JSON asynchronously
         }).then(data => {
-            const responseMessage = document.getElementById(`response-message-${meme_number}`);
+            const responseMessage = document.getElementById(`${meme_number}`);
             responseMessage.textContent = data.average_rating;
         }).catch(error => {
             console.error('Error:', error);
