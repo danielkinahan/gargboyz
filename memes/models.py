@@ -34,12 +34,12 @@ class Meme(models.Model):
     def average_rating(self) -> float:
         return Rating.objects.filter(meme=self).aggregate(Avg("rating"))["rating__avg"] or 0
     
-    # def user_rating(self, user):
-    #     try:
-    #         rating = Rating.objects.get(meme=self, user=user)
-    #         return rating.rating
-    #     except Rating.DoesNotExist:
-    #         return 0
+    def user_rating(self, user):
+        try:
+            rating = Rating.objects.get(meme=self, user=user)
+            return rating.rating
+        except Rating.DoesNotExist:
+            return 0
 
     def __str__(self):
         return f"Meme {self.number}"

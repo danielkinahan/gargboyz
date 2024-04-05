@@ -8,3 +8,9 @@ class MemeFilter(FilterSet):
             "voice_recording_transcript": ["icontains"],
             "authors": ["exact"],
         }
+
+from django.template.defaulttags import register
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
