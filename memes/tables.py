@@ -14,7 +14,7 @@ class MemeTable(tables.Table):
     authors = tables.Column(verbose_name='Authors')
     season = tables.Column(verbose_name='Season')
     subseason = tables.Column(verbose_name='Subseason/Template')
-    rating = tables.TemplateColumn(template_name='rating_column.html', verbose_name='Rating')
+    average_rating = tables.TemplateColumn(template_name='rating_column.html', verbose_name='Rating')
     actions = tables.TemplateColumn(template_name='actions_column.html', verbose_name='Actions')
 
     class Meta:
