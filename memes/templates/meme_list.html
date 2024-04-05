@@ -16,8 +16,25 @@
         }).then(response => {
             return response.json(); // Parse JSON asynchronously
         }).then(data => {
-            const responseMessage = document.getElementById(`${meme_number}`);
-            responseMessage.textContent = data.average_rating;
+            const averageRating = data.average_rating;
+            const averageRatingElement = document.getElementById(`average-rating-${meme_number}`);
+            const userRatingElement = document.getElementById(`user-rating-${meme_number}`);
+            for (let i = 0; i < 5; i++) {
+                const averageStar = averageRatingElement.children[4 - i];
+                if (averageRating > (4 - i)) {
+                    averageStar.classList.add('checked');
+                } else {
+                    averageStar.classList.remove('checked');
+                }
+
+                const listItem = userRatingElement.children[i];
+                const userStar = listItem.children[0];
+                if (rating > (4 - i)) {
+                    userStar.classList.add('checked');
+                } else {
+                    userStar.classList.remove('checked');
+                }
+            }
         }).catch(error => {
             console.error('Error:', error);
             // Handle errors
