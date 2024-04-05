@@ -46,10 +46,12 @@
                     </td>
                     <td>{{ form.meme_type }}</td>
                     <td style="font-size: 12px;">
+                        {% if meme.voice_recording_path.url is defined %}
                         <audio controls preload="none">
                             <source src="{{ meme.voice_recording_path.url }}" type="audio/mp3">
                             Your browser does not support the audio tag.
                         </audio>
+                        {% endif %}
                         {{ form.voice_recording_path }}
                     </td>
                     <td>{{ form.voice_recording_transcript }}</td>
