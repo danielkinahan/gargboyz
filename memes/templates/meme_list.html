@@ -45,6 +45,8 @@
 <body>
     <div class="container-fluid">
         <h1>Meme List</h1>
+        <a href="/"
+            style='border: 1px solid black; display: inline-block; padding: 5px;'>{% bootstrap_button 'home' %}</a>
         <a href="{% url 'create' %}" ,
             style='border: 1px solid black; display: inline-block; padding: 5px;'>{% bootstrap_button 'add meme' %}</a>
         <a href="{% url 'update_all' %}" ,
