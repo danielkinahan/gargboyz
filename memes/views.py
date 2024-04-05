@@ -36,7 +36,6 @@ def api_read(request):
 def read(request):
     # Get existing query parameters
     memes = Meme.objects.all()
-
     # Apply filters using django-filters
     filter = MemeFilter(request.GET, queryset=memes)
     memes = filter.qs
@@ -50,7 +49,6 @@ def read(request):
     table = MemeTable(memes)
 
     user_ratings = {meme.pk: meme.user_rating(request.user) for meme in memes}
-    print(user_ratings)
         
     return render(request, 'meme_list.html', {'table': table, 'filter': filter, 'user_ratings': user_ratings})
 
@@ -160,7 +158,7 @@ def update(request, pk):
         form = MemeEditForm(instance=meme)
     return render(request, 'meme_form.html', {'form': form})
 
-
+@login_required
 def update_all(request):
     memes = Meme.objects.all().order_by('number')
     if request.method == 'POST':
@@ -178,11 +176,12 @@ def update_all(request):
     packed = zip(forms, memes)
     return render(request, 'meme_form_all.html', {'packed': packed})
 
+@login_required
 def rate(request, pk, rating):
 
     meme = Meme.objects.get(pk=pk)
     user = request.user
     Rating.objects.filter(meme=meme, user=user).delete()
     meme.rating_set.create(user=user, rating=rating)
-    new_average_rating = meme.average_rating()
+    new_average_rating = meme.average_rating
     return JsonResponse({'average_rating': new_average_rating})
