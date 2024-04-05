@@ -1,6 +1,6 @@
 {% load static %}
 
-<h5 class="card-title" id="{{ record.number }}">Average:
+<h5 class="card-title" id="average-rating-{{ record.number }}">Average:
     <span class="fa fa-star {% if record.average_rating > 0 %} checked {% endif %}"></span>
     <span class="fa fa-star {% if record.average_rating > 1 %} checked {% endif %}"></span>
     <span class="fa fa-star {% if record.average_rating > 2 %} checked {% endif %}"></span>
@@ -8,8 +8,7 @@
     <span class="fa fa-star {% if record.average_rating > 4 %} checked {% endif %}"></span>
 </h5>
 <div class="card" style="width: 12rem; display: flex;">
-    {{record.user_rating}}
-    <ul class="btn btn-light list-inline rating-list">
+    <ul class="btn btn-light list-inline rating-list" id="user-rating-{{ record.number }}">
         <li onclick="rate(5, '{{ record.number }}')">
             <i class="fa fa-star {% if user_ratings|get_item:record.number > 4 %} checked {% endif %}"
                 title="Rate 5"></i>
