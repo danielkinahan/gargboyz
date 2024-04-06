@@ -3,11 +3,11 @@ from .models import Meme
 
 class MemeTable(tables.Table):
     number = tables.TemplateColumn(template_name='meme_number_column.html', verbose_name='Number')
-    declared_number = tables.Column(verbose_name='Declared number')
+    # declared_number = tables.Column(verbose_name='Declared number')
     meme_path = tables.TemplateColumn(template_name='meme_column.html', verbose_name='Meme')
     # meme_thumbnail
     # meme_type
-    meme_created_at = tables.Column(verbose_name='Meme constructed')
+    # meme_created_at = tables.Column(verbose_name='Meme constructed')
     voice_recording_path = tables.TemplateColumn(template_name='recording_column.html', verbose_name='Idea')
     voice_recording_created_at = tables.Column(verbose_name='Idea date')
     voice_recording_transcript = tables.Column(verbose_name='Transcript')
@@ -21,9 +21,9 @@ class MemeTable(tables.Table):
         model = Meme
         template_name = "django_tables2/bootstrap5-responsive.html"
         attrs = {"class": "table"}
-        exclude = ['meme_type']
-        sequence = ('number', 'meme_path', 'voice_recording_path', 'voice_recording_transcript',  
-                    'authors', 'declared_number', 'voice_recording_created_at', 'season', 'meme_created_at', 'subseason')
+        exclude = ['meme_type', 'rating_count', 'comment_count', 'declared_number', 'meme_created_at']
+        sequence = ('actions', 'average_rating', 'number', 'meme_path', 'voice_recording_path', 'voice_recording_transcript',  
+                    'authors', 'voice_recording_created_at', 'season', 'subseason')
 
         
     def render_authors(self, value):

@@ -67,6 +67,7 @@ def detail(request, pk):
             new_comment.user = request.user
             new_comment.created_on = datetime.datetime.now()
             new_comment.save()
+            comment_form = CommentForm()
     else:
         comment_form = CommentForm()
 
@@ -202,6 +203,8 @@ def rate(request, pk, rating):
     meme = Meme.objects.get(pk=pk)
     user = request.user
     Rating.objects.filter(meme=meme, user=user).delete()
-    meme.rating_set.create(user=user, rating=rating)
-    new_average_rating = meme.average_rating
-    return JsonResponse({'average_rating': new_average_rating})
+    Rating.objects.create(user=user, meme=meme, rating=rating)
+    rating_count = meme.update_rating_count()
+    average_rating = meme.update_average_rating()
+
+    return JsonResponse({'average_rating': average_rating, 'rating_count': rating_count})

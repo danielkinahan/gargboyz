@@ -1,2 +1,7 @@
 {% load django_bootstrap5 %}
 <a href="{% url 'update' record.pk %}">{% bootstrap_button 'edit' %}</a>
+<a href="{% url 'detail' record.pk %}">
+    <button type="button" class="btn btn-primary">
+        comments <span class="badge text-bg-secondary">({{record.comment_count}})</span>
+    </button>
+</a>
