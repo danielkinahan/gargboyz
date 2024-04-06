@@ -7,6 +7,7 @@ class MemeEditForm(forms.ModelForm):
     class Meta:
         model = Meme
         fields = '__all__'
+        exclude = ['average_rating', 'rating_count', 'comment_count']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
