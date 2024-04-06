@@ -1,6 +1,6 @@
 {% load static %}
 
-<h5 class="card-title" id="average-rating-{{ record.number }}">Average:
+<h5 class="card-title" id="average-rating-{{ record.number }}" title="{{record.average_rating}}">Average:
     <span class="fa fa-star {% if record.average_rating > 0 %} checked {% endif %}"></span>
     <span class="fa fa-star {% if record.average_rating > 1 %} checked {% endif %}"></span>
     <span class="fa fa-star {% if record.average_rating > 2 %} checked {% endif %}"></span>
