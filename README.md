@@ -6,10 +6,10 @@ A django project to display gargboyz memorabilia.
 
 ```bash
 # For prod
-docker-compose -f docker-compose.prod.yml up -d
-docker-compose -f docker-compose.prod.yml exec web python manage.py migrate --noinput
-docker-compose -f docker-compose.prod.yml exec web python manage.py collectstatic --noinput --clear
-docker-compose -f docker-compose.prod.yml exec web python manage.py createsuperuser --noinput
+docker compose -f compose.prod.yml up -d
+docker compose -f compose.prod.yml exec web python manage.py migrate --noinput
+docker compose -f compose.prod.yml exec web python manage.py collectstatic --noinput --clear
+docker compose -f compose.prod.yml exec web python manage.py createsuperuser --noinput
 ```
 
 ## Development
@@ -25,24 +25,24 @@ rm -rf mediafiles db.sqlite3
 
 ```bash
 # For dev. Testing db changes e.t.c
-docker-compose up -d --build
-docker-compose exec web python manage.py flush --noinput
-docker-compose exec web python manage.py migrate --noinput
-docker-compose exec web python manage.py createsuperuser --noinput
+docker compose up -d --build
+docker compose exec web python manage.py flush --noinput
+docker compose exec web python manage.py migrate --noinput
+docker compose exec web python manage.py createsuperuser --noinput
 # For cleaning up
-docker-compose down -v
+docker compose down -v
 docker system prune --all --force --volumes
 docker volume  prune --all --force
 ```
 
 ```bash
 # For test. Testing gunicorn, nginx, logging, static files e.t.c
-docker-compose -f docker-compose.test.yml up -d --build
-docker-compose -f docker-compose.test.yml exec web python manage.py migrate --noinput
-docker-compose -f docker-compose.test.yml exec web python manage.py collectstatic --noinput --clear
-docker-compose -f docker-compose.test.yml exec web python manage.py createsuperuser --noinput
+docker compose -f compose.test.yml up -d --build
+docker compose -f compose.test.yml exec web python manage.py migrate --noinput
+docker compose -f compose.test.yml exec web python manage.py collectstatic --noinput --clear
+docker compose -f compose.test.yml exec web python manage.py createsuperuser --noinput
 # For cleaning up
-docker-compose -f docker-compose.test.yml down -v
+docker compose -f compose.test.yml down -v
 docker system prune --all --force --volumes
 docker volume  prune --all --force
 ```

@@ -3,14 +3,14 @@
 <a href="{{ record.meme_path.url }}"><img loading="lazy" class="thumbnail" src="{{ record.meme_thumbnail.url }}"
         alt="Meme {{ record.number }}"></a>
 {% elif record.meme_type == 'gif' %}
-<img loading="lazy" src="{{ record.meme_path.url }}" alt="Meme {{ record.number }}">
+<img loading="lazy" src="{{ record.meme_path.url }}" class="thumbnail" alt="Meme {{ record.number }}">
 {% elif record.meme_type == 'mp4' %}
-<video controls>
+<video controls class="thumbnail">
     <source src="{{ record.meme_path.url }}" preload="none" type="video/mp4">
     Your browser does not support the video tag.
 </video>
 {% elif record.meme_type == 'mov' %}
-<video controls>
+<video controls class="thumbnail">
     <source src="{{ record.meme_path.url }}" preload="none" type="video/mp4">
     Your browser does not support the video tag.
 </video>

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Meme, Rating
+from .models import Meme, Rating, Comment
 from django.forms import formset_factory
 
 
@@ -46,8 +46,16 @@ class MemeAddForm(forms.ModelForm):
 MemeAddFormSet = formset_factory(MemeAddForm)
 
 
-class RatingForm(forms.ModelForm):
-
+class CommentForm(forms.ModelForm):
     class Meta:
-        model = Rating
-        fields = ['rating']
+        model = Comment
+        fields = ('body',)
+        widgets = {
+            'body': forms.TextInput(attrs={'style':'width: 100%; margin-left: 1rem; margin-bottom: 0;'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['body'].label = ""
+
+  

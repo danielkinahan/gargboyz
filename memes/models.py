@@ -46,6 +46,20 @@ class Meme(models.Model):
     def __str__(self):
         return f"Meme {self.number}"
 
+
+class Comment(models.Model):
+    meme = models.ForeignKey(Meme, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_on']
+
+    def __str__(self):
+        return '{} - {}'.format(self.user, self.body)
+
+
 class Rating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     meme = models.ForeignKey(Meme, on_delete=models.CASCADE)
