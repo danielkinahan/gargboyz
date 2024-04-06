@@ -6,9 +6,11 @@ A django project to display gargboyz memorabilia.
 
 ```bash
 # For prod
+docker compose -f compose.prod.yml pull
 docker compose -f compose.prod.yml up -d
-docker compose -f compose.prod.yml exec web python manage.py migrate --noinput
 docker compose -f compose.prod.yml exec web python manage.py collectstatic --noinput --clear
+docker compose -f compose.prod.yml exec web python manage.py migrate --noinput
+# For first time
 docker compose -f compose.prod.yml exec web python manage.py createsuperuser --noinput
 ```
 
