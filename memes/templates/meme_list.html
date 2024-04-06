@@ -17,6 +17,7 @@
             return response.json(); // Parse JSON asynchronously
         }).then(data => {
             const averageRating = data.average_rating;
+            const ratingCount = data.rating_count;
             const averageRatingElement = document.getElementById(`average-rating-${meme_number}`);
             const userRatingElement = document.getElementById(`user-rating-${meme_number}`);
             for (let i = 0; i < 5; i++) {
@@ -35,6 +36,8 @@
                     userStar.classList.remove('checked');
                 }
             }
+            averageRatingElement.childNodes[0].textContent = `(${ratingCount})\n`;
+            averageRatingElement.style.visibility = "visible";
         }).catch(error => {
             console.error('Error:', error);
             // Handle errors

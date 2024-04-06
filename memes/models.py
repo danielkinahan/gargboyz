@@ -29,13 +29,30 @@ class Meme(models.Model):
     authors = models.ManyToManyField(Author, blank=True)
     season = models.PositiveSmallIntegerField(blank=True, null=True)
     subseason = models.CharField(max_length=100, blank=True)
+
     average_rating = models.FloatField(default=0)
+    rating_count = models.PositiveIntegerField(default=0)
+    comment_count = models.PositiveIntegerField(default=0)
+
 
     def update_average_rating(self):
         avg_rating = Rating.objects.filter(meme=self).aggregate(Avg("rating"))["rating__avg"] or 0
         self.average_rating = avg_rating or 0
         self.save()
-    
+        return avg_rating
+
+    def update_rating_count(self):
+        rating_cnt = Rating.objects.filter(meme=self).count()
+        self.rating_count = rating_cnt
+        self.save()
+        return rating_cnt
+
+    def update_comment_count(self):
+        comment_cnt = Comment.objects.filter(meme=self).count()
+        self.comment_count = comment_cnt
+        self.save()
+        return comment_cnt
+
     def user_rating(self, user):
         try:
             rating = Rating.objects.get(meme=self, user=user)
