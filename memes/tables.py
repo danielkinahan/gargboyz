@@ -2,7 +2,7 @@ import django_tables2 as tables
 from .models import Meme
 
 class MemeTable(tables.Table):
-    number = tables.Column(verbose_name='Number')
+    number = tables.TemplateColumn(template_name='meme_number_column.html', verbose_name='Number')
     declared_number = tables.Column(verbose_name='Declared number')
     meme_path = tables.TemplateColumn(template_name='meme_column.html', verbose_name='Meme')
     # meme_thumbnail

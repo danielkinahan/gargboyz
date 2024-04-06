@@ -8,9 +8,10 @@ from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 import json
+import datetime
 
-from .forms import MemeAddForm, MemeEditForm, MemeAddFormSet, RatingForm
-from .models import Meme, Author, Rating
+from .forms import MemeAddForm, MemeEditForm, MemeAddFormSet, CommentForm
+from .models import Meme, Rating, Comment
 from .utils import get_extension, transcribe_audio
 from .serializers import MemeSerializer
 from .tables import MemeTable
@@ -51,6 +52,25 @@ def read(request):
     user_ratings = {meme.pk: meme.user_rating(request.user) for meme in memes}
         
     return render(request, 'meme_list.html', {'table': table, 'filter': filter, 'user_ratings': user_ratings})
+
+@login_required
+def detail(request, pk):
+    meme = Meme.objects.get(pk=pk)
+    comments = Comment.objects.filter(meme__pk=pk)
+    ratings = Rating.objects.filter(meme__pk=pk)
+
+    if request.method == 'POST':
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.meme = meme
+            new_comment.user = request.user
+            new_comment.created_on = datetime.datetime.now()
+            new_comment.save()
+    else:
+        comment_form = CommentForm()
+
+    return render(request, 'meme_detail.html', {'meme': meme, 'ratings': ratings, 'comments': comments, 'comment_form': comment_form})
 
 
 @login_required

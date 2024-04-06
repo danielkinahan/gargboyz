@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Meme Detail{% endblock %}
+
+{% block content %}
+
+{% load render_table from django_tables2 %}
+{% load django_bootstrap5 %}
+<p><a href="{% url 'read' %}">{% bootstrap_button 'back to meme list' %}</a></p>
+<div class="container-fluid" style="margin-left: 1rem; margin-top: 1rem;">
+
+    {% if meme.meme_type == 'jpeg' %}
+    <a href="{{ meme.meme_path.url }}"><img loading="lazy" src="{{ meme.meme_path.url }}"
+            alt="Meme {{ meme.number }}"></a>
+    {% elif meme.meme_type == 'gif' %}
+    <img loading="lazy" src="{{ meme.meme_path.url }}" alt="Meme {{ meme.number }}">
+    {% elif meme.meme_type == 'mp4' %}
+    <video controls>
+        <source src="{{ meme.meme_path.url }}" preload="none" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    {% elif meme.meme_type == 'mov' %}
+    <video controls>
+        <source src="{{ meme.meme_path.url }}" preload="none" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    {% endif %}
+</div>
+<div class="container-fluid" style="margin-left: 1rem;">
+    {% if meme.voice_recording_path %}
+    <audio controls preload="none" style='width:max-content;'>
+        <source src="{{ meme.voice_recording_path.url }}" type="audio/mp3">
+        Your browser does not support the audio tag.
+    </audio>
+    {% else %}
+    No voice memeing available.
+    {% endif %}
+
+    <h5 class="card-title" id="average-rating-{{ meme.number }}">Average:
+        <span class="fa fa-star {% if meme.average_rating > 0 %} checked {% endif %}"></span>
+        <span class="fa fa-star {% if meme.average_rating > 1 %} checked {% endif %}"></span>
+        <span class="fa fa-star {% if meme.average_rating > 2 %} checked {% endif %}"></span>
+        <span class="fa fa-star {% if meme.average_rating > 3 %} checked {% endif %}"></span>
+        <span class="fa fa-star {% if meme.average_rating > 4 %} checked {% endif %}"></span>
+    </h5>
+</div>
+<div class="container-fluid" style="margin-left: 1rem;">
+    <div class="mb-3" style="width: 100%">
+        {% if new_comment %}
+        <div class="alert alert-success" role="alert">
+            Submitted
+        </div>
+        {% else %}
+        <form method="post">
+            {{ comment_form.as_p }}
+            {% csrf_token %}
+            <button type="submit" class="btn" style="width: 100%; margin-left: 1rem;">Submit</button>
+        </form>
+        {% endif %}
+    </div>
+
+    <h3>Comments</h3>
+    <div class="comments" style="margin-left: 1rem;">
+        {% for comment in comments %}
+        <div class="comment" style="box-sizing: content-box;">
+            <div class="info">
+                <time datetime="{{ comment.created_on }}">{{ comment.created_on }}</time>
+            </div>
+            {{ comment.user }}: {{ comment.body }}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
