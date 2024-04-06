@@ -27,7 +27,7 @@
                     <th>Subseason</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="meme-form-multiple">
                 {% for form, meme in packed %}
                 <tr>
                     <td>
@@ -35,9 +35,9 @@
                         <a href="{{ meme.meme_path.url }}"><img class="thumbnail" src="{{ meme.meme_thumbnail.url }}"
                                 alt="Meme {{ meme.number }}">
                             {% elif meme.meme_type == 'gif' %}
-                            <img src="{{ meme.meme_path.url }}" alt="Meme {{ meme.number }}">
+                            <img src="{{ meme.meme_path.url }}" class="thumbnail" alt="Meme {{ meme.number }}">
                             {% elif meme.meme_type == 'mp4' %}
-                            <video controls>
+                            <video controls class="thumbnail">
                                 <source src="{{ meme.meme_path.url }}" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>

@@ -181,7 +181,7 @@ def update(request, pk):
 
 @login_required
 def update_all(request):
-    memes = Meme.objects.all().order_by('number')
+    memes = Meme.objects.all().order_by('-number')
     if request.method == 'POST':
         forms = [MemeEditForm(request.POST, request.FILES, instance=meme_instance,
                               prefix=f'meme-{meme_instance.number}') for meme_instance in memes]
