@@ -5,6 +5,7 @@ urlpatterns = [
     path('', read, name='read'),
     path('<int:pk>', detail, name='detail'),
     path('random/', read_random, name='read_random'),
+    path('season/<int:season>', read_season, name='read_season'),
     path('create/', create, name='create'),
     path('create/multiple/', create_multiple, name='create_multiple'),
     path('update/<int:pk>/', update, name='update'),

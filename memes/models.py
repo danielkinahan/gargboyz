@@ -75,6 +75,11 @@ class Comment(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.user, self.body)
+    
+    # I update this in the view with ratings but since this does not have a view it should go here
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.meme.update_comment_count()
 
 
 class Rating(models.Model):
@@ -83,8 +88,4 @@ class Rating(models.Model):
     rating = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.meme.number}: {self.rating}"
-    
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        self.meme.update_average_rating()
+        return f"{self.user}: meme #{self.meme.number} -> {self.rating} stars"
