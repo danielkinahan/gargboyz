@@ -37,6 +37,27 @@ def api_read(request):
 def read(request):
     # Get existing query parameters
     memes = Meme.objects.all()
+
+    # Apply filters using django-filters
+    filter = MemeFilter(request.GET, queryset=memes)
+    memes = filter.qs
+
+    sort = request.GET.get('sort')
+    if sort:
+        memes = memes.order_by(sort)
+    else:
+        memes = memes.order_by('-number')
+
+    table = MemeTable(memes)
+
+    user_ratings = {meme.pk: meme.user_rating(request.user) for meme in memes}
+        
+    return render(request, 'meme_list.html', {'table': table, 'filter': filter, 'user_ratings': user_ratings})
+
+@login_required
+def read_season(request, season):
+    # Get existing query parameters
+    memes = Meme.objects.filter(season=season)
     # Apply filters using django-filters
     filter = MemeFilter(request.GET, queryset=memes)
     memes = filter.qs
