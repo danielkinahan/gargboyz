@@ -43,6 +43,18 @@
         <span class="fa fa-star {% if meme.average_rating > 3 %} checked {% endif %}"></span>
         <span class="fa fa-star {% if meme.average_rating > 4 %} checked {% endif %}"></span>
     </h5>
+
+    {% for rating in ratings %}
+    <h5 class="card-title" id="rating-{{rating.user}}">{{rating.user}}
+        <span class="fa fa-star {% if rating.rating > 0 %} checked {% endif %}"></span>
+        <span class="fa fa-star {% if rating.rating > 1 %} checked {% endif %}"></span>
+        <span class="fa fa-star {% if rating.rating > 2 %} checked {% endif %}"></span>
+        <span class="fa fa-star {% if rating.rating > 3 %} checked {% endif %}"></span>
+        <span class="fa fa-star {% if rating.rating > 4 %} checked {% endif %}"></span>
+    </h5>
+    {% endfor %}
+
+
 </div>
 <div class="container-fluid" style="margin-left: 1rem;">
     <div class="mb-3" style="width: 100%">

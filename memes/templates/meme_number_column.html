@@ -1,1 +1,2 @@
-{{ record.number }} {% if record.declared_number is not None %}({{record.declared_number}}){% endif %}
+{% if record.declared_number is not None and record.number != record.declared_number %}{{record.declared_number}}
+({{ record.number }}){% else %}{{ record.number }}{% endif %}

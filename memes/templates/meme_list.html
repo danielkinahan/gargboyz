@@ -70,6 +70,8 @@
         <a href="{% url 'read' %}">{% bootstrap_button 'clear filters' %}</a>
         {% endif %}
 
+        {{ table.rows|length }} memes
+
         {% render_table table %}
     </div>
 </body>
