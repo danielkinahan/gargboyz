@@ -21,10 +21,10 @@ class Meme(models.Model):
                                     format='JPEG',
                                     options={'quality': 90})
     meme_type = models.CharField(max_length=50, blank=True)
-    meme_created_at = models.DateField(blank=True)
+    meme_created_at = models.DateField(blank=True, null=True)
     voice_recording_path = models.FileField(
         upload_to='recordings/', blank=True)
-    voice_recording_created_at = models.DateTimeField(blank=True)
+    voice_recording_created_at = models.DateTimeField(blank=True, null=True)
     voice_recording_transcript = models.TextField(blank=True)
     authors = models.ManyToManyField(Author, blank=True)
     season = models.PositiveSmallIntegerField(blank=True, null=True)

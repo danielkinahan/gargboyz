@@ -27,8 +27,8 @@ class MemeAddForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self.fields['meme_created_at'].required = False
-        # self.fields['voice_recording_created_at'].required = False
+        self.fields['meme_created_at'].required = False
+        self.fields['voice_recording_created_at'].required = False
         self.fields['meme_type'].widget = forms.HiddenInput()
         self.fields['voice_recording_transcript'].widget = forms.HiddenInput()
         self.fields['meme_path'].label = "Meme"
