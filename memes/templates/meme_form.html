@@ -12,7 +12,7 @@
     <h1>{% block heading %}Meme Form{% endblock %}</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {% bootstrap_form form %}
+        {% bootstrap_form form layout="floating" %}
         <button type="submit">Submit</button>
     </form>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
