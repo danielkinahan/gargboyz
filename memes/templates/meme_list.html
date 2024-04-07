@@ -50,9 +50,10 @@
         <h1>Meme List</h1>
         <a href="/" class="nav-button">{% bootstrap_button 'home' %}</a>
         <a href="{% url 'create' %}" class="nav-button">{% bootstrap_button 'add meme' %}</a>
+        <!-- <a href="{% url 'create_multiple' %}" class="nav-button">{% bootstrap_button 'add multiple memes' %}</a> -->
         <a href="{% url 'update_all' %}" class="nav-button">{% bootstrap_button 'edit all memes' %}</a>
         <a href="{% url 'read_random' %}" class="nav-button">{% bootstrap_button 'randomizer' %}</a>
-        <!-- <a href="{% url 'create_multiple' %}" class="nav-button">Add Many Memes</a> -->
+
         <form action="{% url 'logout' %}" method="post" , style="display: flex; justify-content: right;">
             {% csrf_token %}
             <button type="submit">log out</button>

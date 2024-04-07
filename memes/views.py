@@ -182,17 +182,17 @@ def create(request):
 
 @login_required
 def create_multiple(request):
+    print(request.POST)
     if request.method == 'POST':
         formset = MemeAddFormSet(request.POST, request.FILES)
         if formset.is_valid():
             instances = formset.save(commit=False)
             for instance in instances:
-                # Perform any additional processing on each instance if needed
                 instance.save()
-            # Redirect to the appropriate URL after saving
             messages.success(request, 'Memes posted')
             return redirect('read')
         messages.error(request, 'All memes failed to post')
+        return render(request, 'meme_form_multiple.html', {'formset': formset})
     else:
         formset = MemeAddFormSet()
     return render(request, 'meme_form_multiple.html', {'formset': formset})
