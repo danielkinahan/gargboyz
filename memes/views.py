@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from rest_framework import status
 from rest_framework.response import Response
@@ -19,7 +20,6 @@ from .filters import MemeFilter
 
 
 @api_view(['GET'])
-# Use BasicAuthentication for authentication
 @authentication_classes([BasicAuthentication])
 @permission_classes([IsAuthenticated])
 def api_read(request):
@@ -89,6 +89,8 @@ def detail(request, pk):
             new_comment.created_on = datetime.datetime.now()
             new_comment.save()
             comment_form = CommentForm()
+            messages.success(request, 'Comment posted')
+        messages.error(request, 'Comment failed')
     else:
         comment_form = CommentForm()
 
@@ -153,23 +155,29 @@ def api_create(request):
 
 @login_required
 def create(request):
-    form = MemeAddForm(request.POST, request.FILES)
-    if form.is_valid():
-        meme_path = request.FILES.get('meme_path')
-        voice_recording_path = request.FILES.get(
-            'voice_recording_path')
+    if request.method == 'POST':
+        form = MemeAddForm(request.POST, request.FILES)
+        if form.is_valid():
+            meme_path = request.FILES.get('meme_path')
+            voice_recording_path = request.FILES.get(
+                'voice_recording_path')
 
-        if meme_path:
-            form.instance.meme_type = get_extension(meme_path)
+            if meme_path:
+                form.instance.meme_type = get_extension(meme_path)
 
-        if voice_recording_path:
-            form.instance.voice_recording_transcript = transcribe_audio(
-                voice_recording_path)
+            if voice_recording_path:
+                form.instance.voice_recording_transcript = transcribe_audio(
+                    voice_recording_path)
 
-        form.save()
-        return redirect('read')
-
-    return render(request, 'meme_form.html', {'form': form})
+            form.save()
+            messages.success(request, 'New meme successfully created')
+            return redirect('read')
+        else:
+            messages.error(request, 'Meme not saved')
+            return render(request, 'meme_form.html', {'form': form})
+    else:
+        form = MemeAddForm()
+        return render(request, 'meme_form.html', {'form': form})
 
 
 @login_required
@@ -182,7 +190,9 @@ def create_multiple(request):
                 # Perform any additional processing on each instance if needed
                 instance.save()
             # Redirect to the appropriate URL after saving
+            messages.success(request, 'Memes posted')
             return redirect('read')
+        messages.error(request, 'All memes failed to post')
     else:
         formset = MemeAddFormSet()
     return render(request, 'meme_form_multiple.html', {'formset': formset})
@@ -195,7 +205,9 @@ def update(request, pk):
         form = MemeEditForm(request.POST, request.FILES, instance=meme)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Meme updated')
             return redirect('read')
+        messages.error(request, 'Meme failed to update')
     else:
         form = MemeEditForm(instance=meme)
     return render(request, 'meme_form.html', {'form': form})
@@ -210,7 +222,9 @@ def update_all(request):
             for form in forms:
                 form.save()
                 # File modifications not working here
+            messages.success(request, 'Memes updated')
             return redirect('read')
+        messages.error(request, 'All memes failed to update')
     else:
         forms = [MemeEditForm(
             instance=meme_instance, prefix=f'meme-{meme_instance.number}') for meme_instance in memes]
