@@ -9,11 +9,6 @@ class MemeEditForm(forms.ModelForm):
         fields = '__all__'
         exclude = ['average_rating', 'rating_count', 'comment_count']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['meme_created_at'].required = False
-        self.fields['voice_recording_created_at'].required = False
-
     meme_created_at = forms.DateField(
         widget=forms.DateInput(attrs={'type': 'date'}))
     voice_recording_created_at = forms.DateTimeField(
@@ -24,25 +19,24 @@ class MemeAddForm(forms.ModelForm):
     class Meta:
         model = Meme
         fields = '__all__'
+        exclude = ['average_rating', 'rating_count', 'comment_count']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['meme_created_at'].required = False
-        self.fields['voice_recording_created_at'].required = False
         self.fields['meme_type'].widget = forms.HiddenInput()
         self.fields['voice_recording_transcript'].widget = forms.HiddenInput()
+        self.fields['voice_recording_created_at'].widget = forms.HiddenInput()
         self.fields['meme_path'].label = "Meme"
         self.fields['voice_recording_path'].label = "Idea"
-        self.fields['meme_path'].help_text = "Meme image or video file"
-        self.fields['voice_recording_path'].help_text = "Idea voice recording"
+        self.fields['meme_path'].help_text = "Image, gif or video"
+        self.fields['voice_recording_path'].help_text = "Voice recording"
 
     meme_created_at = forms.DateField(
         widget=forms.DateInput(attrs={'type': 'date'}))
-    voice_recording_created_at = forms.DateTimeField(
-        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
     
     field_order = ('number', 'meme_path', 'voice_recording_path',  
-        'authors', 'declared_number', 'voice_recording_created_at', 'season', 'meme_created_at', 'subseason')
+        'authors', 'declared_number', 'season', 'meme_created_at', 'subseason')
 
 MemeAddFormSet = formset_factory(MemeAddForm)
 
