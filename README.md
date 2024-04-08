@@ -2,6 +2,11 @@
 
 A django project to display gargboyz memorabilia. 
 
+## Apps
+### memes
+
+An app that displays and allows uploads of memes.
+
 ## Usage
 
 ```bash
@@ -14,7 +19,7 @@ docker compose -f compose.prod.yml exec web python manage.py migrate --noinput
 docker compose -f compose.prod.yml exec web python manage.py createsuperuser --noinput
 ```
 
-## Development
+### Development
 
 ```bash
 # Local development
@@ -48,38 +53,6 @@ docker compose -f compose.test.yml down -v
 docker system prune --all --force --volumes
 docker volume  prune --all --force
 ```
-
-## Meme app
-
-An app that displays and allows uploads of memes.
-
-### Roadmap
-
- - ~~Improve performance with image thumbnails and audio/video loading on demand~~
- - Rating system or 
-    - Hall of fame where each boy gets to mark 1-3 memes as the best meme ever made and we display them specially
- - How out of 10 were you rating scale
- - Pinning table line of played media to bottom of screen
- - Add charts
-
-### Tables
-
-#### meme
-
-| **column name**            | **type**             | **description**                              |
-| -------------------------- | -------------------- | -------------------------------------------- |
-| number                     | PositiveSmallInteger | actual number of the meme                    |
-| declared_number            | PositiveBigInteger   | the declared number of the meme              |
-| media_path                 | FilePath             | local file directory link to media           |
-| media_type                 | string               | image, gif or video                          |
-| media_created_at           | Date                 |                                              |
-| voice_recording_path       | FilePath             | local file directory link to recording       |
-| voice_recording_created_at | DateTime             | unix timecode                                |
-| voice_recording_transcript | Text                 | transcription of voice recording             |
-| authors                    | list of foreign keys | comma seperated list of authors              |
-| season                     | PositiveSmallInteger | meme season 1,2,3 e.t.c                      |
-| subseason                  | string               | irish rick and morty, daniels tooltips e.t.c |
-
 
 ## Credits
 
