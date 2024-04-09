@@ -17,9 +17,12 @@
             return response.json(); // Parse JSON asynchronously
         }).then(data => {
             const averageRating = data.average_rating;
-            const ratingCount = data.rating_count;
+            const memeRatingCount = data.meme_rating_count;
+            const userRatingCount = data.user_rating_count;
             const averageRatingElement = document.getElementById(`average-rating-${meme_number}`);
             const userRatingElement = document.getElementById(`user-rating-${meme_number}`);
+            const userRatingCountElement = document.getElementById('user_rating_count');
+
             for (let i = 0; i < 5; i++) {
                 const averageStar = averageRatingElement.children[4 - i];
                 if (averageRating > (4 - i)) {
@@ -36,8 +39,9 @@
                     userStar.classList.remove('checked');
                 }
             }
-            averageRatingElement.childNodes[0].textContent = `(${ratingCount})\n`;
+            averageRatingElement.childNodes[0].textContent = `(${memeRatingCount})\n`;
             averageRatingElement.style.visibility = "visible";
+            userRatingCountElement.textContent = `${userRatingCount}`;
         }).catch(error => {
             console.error('Error:', error);
             // Handle errors
@@ -54,7 +58,7 @@
         <a href="{% url 'update_all' %}" class="nav-button">{% bootstrap_button 'edit all memes' %}</a>
         <a href="{% url 'read_random' %}" class="nav-button">{% bootstrap_button 'randomizer' %}</a>
 
-        <form action="{% url 'logout' %}" method="post" , style="display: flex; justify-content: right;">
+        <form action="{% url 'logout' %}" method="post" style="display: flex; justify-content: right;">
             {% csrf_token %}
             <button type="submit">log out</button>
         </form>
@@ -67,7 +71,7 @@
         <a href="{% url 'read' %}">{% bootstrap_button 'clear filters' %}</a>
         {% endif %}
 
-        {{ table.rows|length }} memes
+        You've rated <b id="user_rating_count">{{ user_ratings|get_non_zero|length }}</b>/{{ table.rows|length }} memes
 
         {% render_table table %}
     </div>

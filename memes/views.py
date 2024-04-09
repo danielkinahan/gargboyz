@@ -209,10 +209,11 @@ def rate(request, pk, rating):
     user = request.user
     Rating.objects.filter(meme=meme, user=user).delete()
     Rating.objects.create(user=user, meme=meme, rating=rating)
-    rating_count = meme.update_rating_count()
+    meme_rating_count = meme.update_rating_count()
     average_rating = meme.update_average_rating()
+    user_rating_count = Rating.objects.filter(user=user).count()
 
-    return JsonResponse({'average_rating': average_rating, 'rating_count': rating_count})
+    return JsonResponse({'average_rating': average_rating, 'meme_rating_count': meme_rating_count, 'user_rating_count': user_rating_count})
 
 
 @api_view(['GET'])
