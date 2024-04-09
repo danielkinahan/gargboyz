@@ -27,7 +27,7 @@
 </div>
 <div class="container-fluid" style="margin-left: 1rem;">
     {% if meme.voice_recording_path %}
-    <audio controls preload="none" style='width:max-content;'>
+    <audio controls preload="none">
         <source src="{{ meme.voice_recording_path.url }}" type="audio/mp3">
         Your browser does not support the audio tag.
     </audio>
