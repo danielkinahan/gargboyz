@@ -58,7 +58,8 @@ def detail(request, pk):
             new_comment.save()
             comment_form = CommentForm()
             messages.success(request, 'Comment posted')
-        messages.error(request, 'Comment failed')
+        else:
+            messages.error(request, 'Comment failed')
     else:
         comment_form = CommentForm()
 
@@ -153,7 +154,8 @@ def update(request, pk):
             form.save()
             messages.success(request, 'Meme updated')
             return redirect('read')
-        messages.error(request, 'Meme failed to update')
+        else:
+            messages.error(request, 'Meme failed to update')
     else:
         form = MemeEditForm(instance=meme)
     return render(request, 'meme_form.html', {'form': form})
@@ -170,8 +172,9 @@ def create_multiple(request):
                 instance.save()
             messages.success(request, 'Memes posted')
             return redirect('read')
-        messages.error(request, 'All memes failed to post')
-        return render(request, 'meme_form_multiple.html', {'formset': formset})
+        else:
+            messages.error(request, 'All memes failed to post')
+            return render(request, 'meme_form_multiple.html', {'formset': formset})
     else:
         formset = MemeAddFormSet()
     return render(request, 'meme_form_multiple.html', {'formset': formset})
@@ -189,7 +192,8 @@ def update_all(request):
                 # File modifications not working here
             messages.success(request, 'Memes updated')
             return redirect('read')
-        messages.error(request, 'All memes failed to update')
+        else:
+            messages.error(request, 'All memes failed to update')
     else:
         forms = [MemeEditForm(
             instance=meme_instance, prefix=f'meme-{meme_instance.number}') for meme_instance in memes]
@@ -247,7 +251,8 @@ def api_create(request):
 
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT', 'PATCH'])
@@ -263,4 +268,5 @@ def api_update(request, pk):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
