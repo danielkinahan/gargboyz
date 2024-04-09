@@ -4,25 +4,25 @@ from .models import Meme
 class MemeTable(tables.Table):
     number = tables.TemplateColumn(template_name='meme_number_column.html', verbose_name='Number')
     # declared_number = tables.Column(verbose_name='Declared number')
-    meme_path = tables.TemplateColumn(template_name='meme_column.html', verbose_name='Meme')
+    meme_path = tables.TemplateColumn(template_name='meme_column.html', verbose_name='Meme', orderable=False)
     # meme_thumbnail
     # meme_type
     # meme_created_at = tables.Column(verbose_name='Meme constructed')
-    voice_recording_path = tables.TemplateColumn(template_name='recording_column.html', verbose_name='Idea')
+    voice_recording_path = tables.TemplateColumn(template_name='recording_column.html', verbose_name='Idea', orderable=False)
     voice_recording_created_at = tables.Column(verbose_name='Idea date')
-    voice_recording_transcript = tables.Column(verbose_name='Transcript')
+    voice_recording_transcript = tables.Column(verbose_name='Transcript', orderable=False)
     authors = tables.Column(verbose_name='Authors')
     season = tables.Column(verbose_name='Season')
     subseason = tables.Column(verbose_name='Subseason/Template')
     average_rating = tables.TemplateColumn(template_name='rating_column.html', verbose_name='Rating')
-    actions = tables.TemplateColumn(template_name='actions_column.html', verbose_name='Actions')
+    comment_count = tables.TemplateColumn(template_name='actions_column.html', verbose_name='Actions')
 
     class Meta:
         model = Meme
         template_name = "django_tables2/bootstrap5-responsive.html"
         attrs = {"class": "table"}
-        exclude = ['meme_type', 'rating_count', 'comment_count', 'declared_number', 'meme_created_at']
-        sequence = ('actions', 'average_rating', 'number', 'meme_path', 'voice_recording_path', 'voice_recording_transcript',  
+        exclude = ['meme_type', 'rating_count',  'declared_number', 'meme_created_at']
+        sequence = ('comment_count', 'average_rating', 'number', 'meme_path', 'voice_recording_path', 'voice_recording_transcript',  
                     'authors', 'voice_recording_created_at', 'season', 'subseason')
 
         
