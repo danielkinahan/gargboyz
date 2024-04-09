@@ -7,6 +7,28 @@
 {% load render_table from django_tables2 %}
 {% load django_bootstrap5 %}
 <script>
+    document.addEventListener('play', function (e) {
+        const row = e.target.parentElement.parentElement;
+        row.style.position = 'sticky';
+        row.style.bottom = '0';
+        row.style.top = '3rem';
+        row.style.zIndex = '1';
+        row.style.border = '1px solid #ddd';
+
+        var audios = document.getElementsByTagName('audio');
+        for (var i = 0, len = audios.length; i < len; i++) {
+            if (audios[i] != e.target) {
+                audios[i].pause();
+                audios[i].parentElement.parentElement.style.position = 'static';
+            }
+        }
+    }, true);
+
+    document.addEventListener('pause', function (e) {
+        const row = e.target.parentElement.parentElement;
+        row.style.position = 'static';
+    }, true);
+
     const rate = (rating, meme_number) => {
         fetch(`/memes/rate/${meme_number}/${rating}/`, {
             method: 'GET',
