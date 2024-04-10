@@ -76,9 +76,9 @@
         <h1>Meme List</h1>
         <a href="/" class="nav-button">{% bootstrap_button 'home' %}</a>
         <a href="{% url 'create' %}" class="nav-button">{% bootstrap_button 'add meme' %}</a>
-        <!-- <a href="{% url 'create_multiple' %}" class="nav-button">{% bootstrap_button 'add multiple memes' %}</a> -->
-        <a href="{% url 'update_all' %}" class="nav-button">{% bootstrap_button 'edit all memes' %}</a>
-        <a href="{% url 'read_random' %}" class="nav-button">{% bootstrap_button 'randomizer' %}</a>
+        <!-- <a href="{% url 'create multiple' %}" class="nav-button">{% bootstrap_button 'add multiple memes' %}</a> -->
+        <a href="{% url 'edit all' %}" class="nav-button">{% bootstrap_button 'edit all memes' %}</a>
+        <a href="{% url 'random' %}" class="nav-button">{% bootstrap_button 'randomizer' %}</a>
 
         <form action="{% url 'logout' %}" method="post" style="display: flex; justify-content: right;">
             {% csrf_token %}
@@ -90,7 +90,7 @@
             {% bootstrap_form filter.form layout='inline' %}
             {% bootstrap_button 'filter' %}
         </form>
-        <a href="{% url 'read' %}">{% bootstrap_button 'clear filters' %}</a>
+        <a href="{% url 'list' %}">{% bootstrap_button 'clear filters' %}</a>
         {% endif %}
 
         You've rated <b id="user_rating_count">{{ user_ratings|get_non_zero|length }}</b>/{{ table.rows|length }} memes

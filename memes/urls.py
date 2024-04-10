@@ -2,16 +2,16 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('', read, name='read'),
-    path('<int:pk>', detail, name='detail'),
-    path('random/', read_random, name='read_random'),
-    path('season/<int:season>', read_season, name='read_season'),
-    path('create/', create, name='create'),
-    path('create/multiple/', create_multiple, name='create_multiple'),
-    path('update/<int:pk>/', update, name='update'),
-    path('update/all/', update_all, name='update_all'),
-    path('api/read/', api_read, name='api_read'),
-    path('api/create/', api_create, name='api_create'),
-    path('api/update/<int:pk>/', api_update, name='api_update'),
+    path('', meme_list, name='list'),
+    path('<int:pk>', meme_detail, name='detail'),
+    path('random/', meme_random, name='random'),
+    path('season/<int:season>', meme_season, name='season'),
+    path('create/', meme_create, name='create'),
+    path('create/multiple/', meme_create_multiple, name='create multiple'),
+    path('update/<int:pk>/', meme_edit, name='edit'),
+    path('update/all/', meme_edit_all, name='edit all'),
+    path('api/read/', meme_api_list, name='api list'),
+    path('api/create/', meme_api_create, name='api create'),
+    path('api/update/<int:pk>/', meme_api_edit, name='api edit'),
     path('rate/<int:pk>/<int:rating>/', rate, name='rate'),
 ]
