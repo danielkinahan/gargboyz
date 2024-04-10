@@ -8,7 +8,7 @@
 <img src="{% static 'gargamel_smoking.jpg' %}" alt="gargamel_smoking" class="img">
 <img src="{% static 'grouppic.jpg' %}" alt="grouppic" class="img">
 <p>Hi {{ user.username }}! Welcome to the official gargboyz website.</p>
-<p><a href="{% url 'read' %}">Memes</a></p>
+<p><a href="{% url 'list' %}">Memes</a></p>
 {% if user.is_superuser %}
 <p><a href="{% url 'admin:index' %}">Admin</a></p>
 {% endif %}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Meme, Rating, Comment
+from .models import Meme, Comment
 from django.forms import formset_factory
 
 
@@ -8,6 +8,11 @@ class MemeEditForm(forms.ModelForm):
         model = Meme
         fields = '__all__'
         exclude = ['average_rating', 'rating_count', 'comment_count']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['voice_recording_created_at'].required = False
+        self.fields['meme_created_at'].required = False
 
     meme_created_at = forms.DateField(
         widget=forms.DateInput(attrs={'type': 'date'}))
@@ -15,7 +20,7 @@ class MemeEditForm(forms.ModelForm):
         widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
 
 
-class MemeAddForm(forms.ModelForm):
+class MemeCreateForm(forms.ModelForm):
     class Meta:
         model = Meme
         fields = '__all__'
@@ -38,7 +43,7 @@ class MemeAddForm(forms.ModelForm):
     field_order = ('number', 'meme_path', 'voice_recording_path',  
         'authors', 'declared_number', 'season', 'meme_created_at', 'subseason')
 
-MemeAddFormSet = formset_factory(MemeAddForm)
+MemeCreateFormSet = formset_factory(MemeCreateForm)
 
 
 class CommentForm(forms.ModelForm):
