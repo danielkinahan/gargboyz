@@ -7,25 +7,25 @@
 
 <script>
     document.addEventListener('play', function (e) {
-        const row = e.target.parentElement.parentElement;
-        row.style.position = 'sticky';
-        row.style.bottom = '0';
-        row.style.top = '3rem';
-        row.style.zIndex = '1';
-        row.style.border = '1px solid #ddd';
+        // const row = e.target.parentElement.parentElement;
+        // row.style.position = 'sticky';
+        // row.style.bottom = '0';
+        // row.style.top = '3rem';
+        // row.style.zIndex = '1';
+        // row.style.border = '1px solid #ddd';
 
         var audios = document.getElementsByTagName('audio');
         for (var i = 0, len = audios.length; i < len; i++) {
             if (audios[i] != e.target) {
                 audios[i].pause();
-                audios[i].parentElement.parentElement.style.position = 'static';
+                // audios[i].parentElement.parentElement.style.position = 'static';
             }
         }
     }, true);
 
     document.addEventListener('pause', function (e) {
         const row = e.target.parentElement.parentElement;
-        row.style.position = 'static';
+        // row.style.position = 'static';
     }, true);
 
     const rate = (rating, meme_number) => {
@@ -119,8 +119,9 @@
             memes
         </p>
     </div>
-
-    {% render_table table %}
+    <div class="container-fluid">
+        {% render_table table %}
+    </div>
 
 </div>
 
