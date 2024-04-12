@@ -1,24 +1,5 @@
 {% load static %}
-<style>
-    .rating-list li {
-        float: right;
-        padding: 10px 5px;
-    }
 
-    .rating-list li:hover,
-    .rating-list li:hover~li {
-        color: orange;
-    }
-
-    .rating-list {
-        list-style: none;
-        cursor: pointer;
-    }
-
-    .checked {
-        color: orange;
-    }
-</style>
 <div class="container">
 
     <div id="average-rating-{{ record.number }}" title="{{record.average_rating}}" style="font-size: 12px;"

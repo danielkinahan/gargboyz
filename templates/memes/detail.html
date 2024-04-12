@@ -14,7 +14,7 @@
         visibility: hidden;
         text-align: center;
         padding: 8px;
-        background: #DDD;
+        background: var(--bs-body-bg);
         background-image: none;
         border: 1px solid #CCC;
         position: absolute;
@@ -28,76 +28,100 @@
     .comment:hover .info {
         visibility: visible;
     }
+
+    .meme-image {
+        max-width: 40rem;
+    }
+
+    @media only screen and (max-width: 750px) {
+        .desktop-column {
+            display: none;
+        }
+
+        .comment-form {
+            max-width: max-content;
+        }
+    }
 </style>
-
-<div class="container-fluid" style="margin-left: 1rem; margin-top: 1rem;">
-
-    {% if meme.meme_type == 'jpeg' %}
-    <a href="{{ meme.meme_path.url }}"><img loading="lazy" src="{{ meme.meme_path.url }}"
-            alt="Meme {{ meme.number }}"></a>
-    {% elif meme.meme_type == 'gif' %}
-    <img loading="lazy" src="{{ meme.meme_path.url }}" alt="Meme {{ meme.number }}">
-    {% elif meme.meme_type == 'mp4' %}
-    <video controls>
-        <source src="{{ meme.meme_path.url }}" preload="none" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    {% elif meme.meme_type == 'mov' %}
-    <video controls>
-        <source src="{{ meme.meme_path.url }}" preload="none" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    {% endif %}
-</div>
-<div class="container-fluid" style="margin-left: 1rem;">
-    {% if meme.voice_recording_path %}
-    <audio controls preload="none">
-        <source src="{{ meme.voice_recording_path.url }}" type="audio/mp3">
-        Your browser does not support the audio tag.
-    </audio>
-    {% else %}
-    No voice memeing available.
-    {% endif %}
-
-    <h5 class="card-title" id="average-rating-{{ meme.number }}">Average:
-        <span class="fa fa-star {% if meme.average_rating > 0 %} checked {% endif %}"></span>
-        <span class="fa fa-star {% if meme.average_rating > 1 %} checked {% endif %}"></span>
-        <span class="fa fa-star {% if meme.average_rating > 2 %} checked {% endif %}"></span>
-        <span class="fa fa-star {% if meme.average_rating > 3 %} checked {% endif %}"></span>
-        <span class="fa fa-star {% if meme.average_rating > 4 %} checked {% endif %}"></span>
-    </h5>
-
-    {% for rating in ratings %}
-    <h5 class="card-title" id="rating-{{rating.user}}">{{rating.user}}
-        <span class="fa fa-star {% if rating.rating > 0 %} checked {% endif %}"></span>
-        <span class="fa fa-star {% if rating.rating > 1 %} checked {% endif %}"></span>
-        <span class="fa fa-star {% if rating.rating > 2 %} checked {% endif %}"></span>
-        <span class="fa fa-star {% if rating.rating > 3 %} checked {% endif %}"></span>
-        <span class="fa fa-star {% if rating.rating > 4 %} checked {% endif %}"></span>
-    </h5>
-    {% endfor %}
-
-
-</div>
-<div class="container-fluid" style="margin-left: 1rem;">
-    <div class="mb-3" style="width: 100%">
-        {% if new_comment %}
-        <div class="alert alert-success" role="alert">
-            Submitted
+<div class="d-flex row ms-2 me-2 mb-2 mt-2">
+    <div class="container col text-center">
+        <h2 class="text-center">{{ meme }}</h2>
+        {% if meme.meme_type == 'jpeg' %}
+        <a href="{{ meme.meme_path.url }}"><img class="meme-image" loading="lazy" src="{{ meme.meme_path.url }}"
+                alt="Meme {{ meme.number }}"></a>
+        {% elif meme.meme_type == 'gif' %}
+        <img class="meme-image" loading="lazy" src="{{ meme.meme_path.url }}" alt="Meme {{ meme.number }}">
+        {% elif meme.meme_type == 'mp4' %}
+        <video class="meme-image" controls>
+            <source src="{{ meme.meme_path.url }}" preload="metadata" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        {% elif meme.meme_type == 'mov' %}
+        <video controls>
+            <source src="{{ meme.meme_path.url }}" preload="metadata" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        {% endif %}
+        <div class="container-fluid ms-1">
+            {% if meme.voice_recording_path %}
+            <audio controls preload="metadata">
+                <source src="{{ meme.voice_recording_path.url }}" type="audio/mp3">
+                Your browser does not support the audio tag.
+            </audio>
+            {% else %}
+            No recording available.
+            {% endif %}
         </div>
-        {% else %}
-        <form method="post">
+    </div>
+    <div class="col desktop-column"></div>
+    <div class="col desktop-column"></div>
+</div>
+<div class="d-flex row mb-3">
+    <div class="container-fluid col">
+        <div class="row text-center" id="rating-{{rating.user}}">
+            <div class="col">average</div>
+            <div class="col" id="average-rating-{{ meme.number }}" title="{{meme.average_rating}}">
+                {% for number in 5|times %}
+                <i class="bi {% if meme.average_rating >= number|add:1 %} bi-star-fill checked
+            {% elif meme.average_rating >= number|add_half %} bi-star-half checked
+            {% else %} bi-star {% endif %}">
+                </i>
+                {% endfor %}
+            </div>
+        </div>
+        <hr class="col ms-5 me-5">
+        {% for rating in ratings %}
+        <div class="row text-center" id="rating-{{rating.user}}">
+            <div class="col">{{rating.user}}</div>
+            <div class="col">
+                {% for number in 5|times %}
+                <i class="bi {% if rating.rating >= number|add:1 %} bi-star-fill checked
+                {% elif rating.rating >= number|add_half %} bi-star-half checked
+                {% else %} bi-star {% endif %}">
+                </i>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+
+    </div>
+    <div class="col desktop-column"></div>
+    <div class="col desktop-column"></div>
+</div>
+<div class="container-fluid ms-1 me-1">
+    <div class="mb-3 me-3">
+        <form method="post" class="form comment-form">
             {{ comment_form.as_p }}
             {% csrf_token %}
-            <button type="submit" class="btn" style="width: 100%; margin-left: 1rem;">Submit</button>
+            <button type="submit" class="btn text-start ms-1 me-1">Submit</button>
         </form>
-        {% endif %}
     </div>
 
     <h3>Comments</h3>
-    <div class="comments" style="margin-left: 1rem;">
+    <div class="comments ms-1 me-1">
         {% for comment in comments %}
-        <div class="comment" style="box-sizing: content-box;">
+        <div class="comment ms-2 me-2">
             <div class="info">
                 <time datetime="{{ comment.created_on }}">{{ comment.created_on }}</time>
             </div>
