@@ -50,6 +50,17 @@
             max-width: 200px;
             max-height: 150px;
         }
+
+        @media only screen and (max-width: 500px) {
+            .thumbnail {
+                max-width: 10rem;
+                max-height: auto;
+            }
+
+            audio {
+                max-width: 8rem;
+            }
+        }
     </style>
     {% block style %}
     {% endblock %}

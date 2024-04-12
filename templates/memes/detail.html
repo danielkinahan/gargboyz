@@ -32,16 +32,6 @@
     .meme-image {
         max-width: 40rem;
     }
-
-    @media only screen and (max-width: 750px) {
-        .desktop-column {
-            display: none;
-        }
-
-        .comment-form {
-            max-width: max-content;
-        }
-    }
 </style>
 <div class="d-flex row ms-2 me-2 mb-2 mt-2">
     <div class="container col text-center">
@@ -73,8 +63,8 @@
             {% endif %}
         </div>
     </div>
-    <div class="col desktop-column"></div>
-    <div class="col desktop-column"></div>
+    <div class="col d-none d-md-block"></div>
+    <div class="col d-none d-md-block"></div>
 </div>
 <div class="d-flex row mb-3">
     <div class="container-fluid col">
@@ -106,8 +96,8 @@
 
 
     </div>
-    <div class="col desktop-column"></div>
-    <div class="col desktop-column"></div>
+    <div class="col d-none d-md-block"></div>
+    <div class="col d-none d-md-block"></div>
 </div>
 <div class="container-fluid ms-1 me-1">
     <div class="mb-3 me-3">
