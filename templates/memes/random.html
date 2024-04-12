@@ -1,10 +1,8 @@
-{% extends "base.html" %}
+{% extends "memes/base.html" %}
 
 {% block title %}Randomizer{% endblock %}
 
 {% block content %}
-
-{% load django_bootstrap5 %}
 
 <style>
     text {
@@ -56,7 +54,6 @@
 
 <body translate="no">
     <h1>Randomizer</h1>
-    <p><a href="{% url 'list' %}">{% bootstrap_button 'back to meme list' %}</a></p>
     <div id="container" style="display: flex;">
         <div id="chart" style="flex: 1;"></div>
         <div id="image"></div>

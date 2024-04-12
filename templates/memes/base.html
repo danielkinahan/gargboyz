@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block title %}Memes{% endblock %}
+
+{% block style %}
+<style>
+    .meme-form-multiple * {
+        height: 1.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block navbar %}
+<a class="nav-item nav-link" href="{% url 'list' %}">memes</a>
+<a class="nav-item nav-link" href="{% url 'random' %}">randomizer</a>
+{% if user.is_staff %}
+<a class="nav-item nav-link" href="{% url 'create' %}">add meme</a>
+<!-- <a class="nav-link" href="{% url 'create multiple' %}">add multiple memes</a> -->
+<a class="nav-item nav-link" href="{% url 'edit all' %}">edit all memes</a>
+{% endif %}
+{% endblock %}
+
+{% block memes %}
+<!-- To be filled in by child templates -->
+{% endblock %}

@@ -1,11 +1,10 @@
-{% extends "base.html" %}
+{% extends "memes/base.html" %}
 
 {% block title %}Meme List{% endblock %}
-
 {% block content %}
 
 {% load render_table from django_tables2 %}
-{% load django_bootstrap5 %}
+
 <script>
     document.addEventListener('play', function (e) {
         const row = e.target.parentElement.parentElement;
@@ -45,20 +44,38 @@
             const userRatingElement = document.getElementById(`user-rating-${meme_number}`);
             const userRatingCountElement = document.getElementById('user_rating_count');
 
+            averageRatingElement.title = data.average_rating;
             for (let i = 0; i < 5; i++) {
                 const averageStar = averageRatingElement.children[4 - i];
-                if (averageRating > (4 - i)) {
+                if (averageRating >= (5 - i)) {
                     averageStar.classList.add('checked');
+                    averageStar.classList.remove('bi-star');
+                    averageStar.classList.remove('bi-star-half');
+                    averageStar.classList.add('bi-star-fill');
+                } else if (averageRating >= (4.5 - i)) {
+                    averageStar.classList.add('checked');
+                    averageStar.classList.remove('bi-star');
+                    averageStar.classList.remove('bi-star-fill');
+                    averageStar.classList.add('bi-star-half');
                 } else {
                     averageStar.classList.remove('checked');
+                    averageStar.classList.remove('bi-star-fill');
+                    averageStar.classList.remove('bi-star-half');
+                    averageStar.classList.add('bi-star');
                 }
 
                 const listItem = userRatingElement.children[i];
                 const userStar = listItem.children[0];
                 if (rating > (4 - i)) {
                     userStar.classList.add('checked');
+                    userStar.classList.remove('bi-star');
+                    userStar.classList.remove('bi-star-half');
+                    userStar.classList.add('bi-star-fill');
                 } else {
                     userStar.classList.remove('checked');
+                    userStar.classList.remove('bi-star-fill');
+                    userStar.classList.remove('bi-star-half');
+                    userStar.classList.add('bi-star');
                 }
             }
             averageRatingElement.childNodes[0].textContent = `(${memeRatingCount})\n`;
@@ -71,33 +88,40 @@
     }
 </script>
 
-<body>
-    <div class="container-fluid">
-        <h1>Meme List</h1>
-        <a href="/" class="nav-button">{% bootstrap_button 'home' %}</a>
-        <a href="{% url 'create' %}" class="nav-button">{% bootstrap_button 'add meme' %}</a>
-        <!-- <a href="{% url 'create multiple' %}" class="nav-button">{% bootstrap_button 'add multiple memes' %}</a> -->
-        <a href="{% url 'edit all' %}" class="nav-button">{% bootstrap_button 'edit all memes' %}</a>
-        <a href="{% url 'random' %}" class="nav-button">{% bootstrap_button 'randomizer' %}</a>
 
-        <form action="{% url 'logout' %}" method="post" style="display: flex; justify-content: right;">
-            {% csrf_token %}
-            <button type="submit">log out</button>
-        </form>
 
-        {% if filter %}
-        <form action="" method="get" class="form form-check form-inline">
-            {% bootstrap_form filter.form layout='inline' %}
-            {% bootstrap_button 'filter' %}
-        </form>
-        <a href="{% url 'list' %}">{% bootstrap_button 'clear filters' %}</a>
+<h1>Meme List</h1>
+<div class="text-center">
+
+    <div class="container px-4">
+        <div class="col align-self-start">
+            <form method="get" class="form">
+                <div class="form-group form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput"
+                        name="voice_recording_transcript__icontains">
+                    <label for="id_voice_recording_transcript__icontains">Search transcript</label>
+                </div>
+                <div class="form-group">
+                    <label>Authors:</label>
+                    {% for author in filter.form.authors %}
+                    <div class="form-check form-check-inline mb-3">
+                        {{ author }}
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-secondary">filter</button>
+                </div>
+            </form>
+        </div>
+        {% if has_filter %}
+        <a class="btn btn-secondary" href="{% url 'list' %}">clear filters</a>
         {% endif %}
-
-        You've rated <b id="user_rating_count">{{ user_ratings|get_non_zero|length }}</b>/{{ table.rows|length }} memes
-
-        {% render_table table %}
+        <p>You've rated <b id="user_rating_count">{{ user_ratings|get_non_zero|length }}</b>/{{ table.rows|length }}
+            memes
+        </p>
     </div>
-</body>
 
-</html>
+    {% render_table table %}
+
+</div>
+
 {% endblock %}
