@@ -159,7 +159,7 @@ def meme_edit(request, pk):
             messages.error(request, 'Meme failed to update')
     else:
         form = MemeEditForm(instance=meme)
-    return render(request, 'meme/form.html', {'form': form})
+    return render(request, 'memes/form.html', {'form': form})
 
 
 @login_required
@@ -178,7 +178,7 @@ def meme_create_multiple(request):
             return render(request, 'memes/create_multiple.html', {'formset': formset})
     else:
         formset = MemeCreateFormSet()
-    return render(request, 'meme/create_multiple.html', {'formset': formset})
+    return render(request, 'memes/create_multiple.html', {'formset': formset})
 
 
 @login_required
