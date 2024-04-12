@@ -3,22 +3,21 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-{% load static %}
-<img src="{% static 'gargamel_smoking.jpg' %}" alt="gargamel_smoking" class="img">
-<img src="{% static 'grouppic.jpg' %}" alt="grouppic" class="img">
-<p>Hi {{ user.username }}! Welcome to the official gargboyz website.</p>
-<p><a href="{% url 'list' %}">Memes</a></p>
-{% if user.is_superuser %}
-<p><a href="{% url 'admin:index' %}">Admin</a></p>
-{% endif %}
-<form action="{% url 'logout' %}" method="post">
-    {% csrf_token %}
-    <button type="submit">Log Out</button>
-</form>
-{% else %}
-<p>You are not logged in</p>
-<p><a href="{% url 'login' %}">Log In</a></p>
-<p><a href="{% url 'signup' %}">Sign Up</a></p>
-{% endif %}
+<div class="container-fluid">
+    {% if user.is_authenticated %}
+    {% load static %}
+    <p>Hi {{ user.username }}! Welcome to the official gargboyz website. Get ready for a ball-bustin' cuz this aint'
+        your
+        grannys website!</p>
+    <img src="{% static 'gargamel_smoking.jpg' %}" alt="gargamel_smoking" class="img">
+    <img src="{% static 'grouppic.jpg' %}" alt="grouppic" class="img">
+
+    {% else %}
+    <div class="container-fluid text-center">
+        <p>You are not logged in</p>
+        <p><a class="btn" href="{% url 'login' %}">Log In</a></p>
+        <p><a class="btn" href="{% url 'signup' %}">Sign Up</a></p>
+    </div>
+    {% endif %}
+</div>
 {% endblock %}

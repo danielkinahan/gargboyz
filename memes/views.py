@@ -27,6 +27,7 @@ def meme_list(request):
 
     # Apply filters using django-filters
     filter = MemeFilter(request.GET, queryset=memes)
+    has_filter = any(field in request.GET for field in set(filter.get_fields()))
     memes = filter.qs
 
     sort = request.GET.get('sort')
@@ -39,7 +40,7 @@ def meme_list(request):
 
     user_ratings = {meme.pk: meme.user_rating(request.user) for meme in memes}
         
-    return render(request, 'memes/list.html', {'table': table, 'filter': filter, 'user_ratings': user_ratings})
+    return render(request, 'memes/list.html', {'table': table, 'filter': filter, 'user_ratings': user_ratings, 'has_filter': has_filter})
 
 
 @login_required

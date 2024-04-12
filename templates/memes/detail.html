@@ -1,11 +1,35 @@
-{% extends "base.html" %}
+{% extends "memes/base.html" %}
 
 {% block title %}Meme Detail{% endblock %}
 
 {% block content %}
+<style>
+    .comment {
+        border-color: rgb(91, 93, 89);
+        padding: 2px;
+        border-style: dotted
+    }
 
-{% load django_bootstrap5 %}
-<p><a href="{% url 'list' %}">{% bootstrap_button 'back to meme list' %}</a></p>
+    .comment .info {
+        visibility: hidden;
+        text-align: center;
+        padding: 8px;
+        background: #DDD;
+        background-image: none;
+        border: 1px solid #CCC;
+        position: absolute;
+        right: 10rem;
+        width: 180px;
+        z-index: 1;
+        box-shadow: 0 0 4px #000;
+        border-radius: 4px;
+    }
+
+    .comment:hover .info {
+        visibility: visible;
+    }
+</style>
+
 <div class="container-fluid" style="margin-left: 1rem; margin-top: 1rem;">
 
     {% if meme.meme_type == 'jpeg' %}

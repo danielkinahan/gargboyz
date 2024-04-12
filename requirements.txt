@@ -6,7 +6,6 @@ pydub
 python-dotenv
 SpeechRecognition
 django-imagekit
-django-bootstrap5
 django-filter
 django-tables2
 python-ffmpeg

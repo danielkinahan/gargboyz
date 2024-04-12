@@ -1,16 +1,15 @@
-{% extends "base.html" %}
+{% extends "memes/base.html" %}
 
 {% block title %}Edit All Memes{% endblock %}
 
 {% block content %}
 {% load render_table from django_tables2 %}
-{% load django_bootstrap5 %}
 
 <body>
     <h1>Edit All Memes</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {% bootstrap_button 'submit' %}
+        <button type="submit" class="btn">submit</button>
         <table>
             <thead>
                 <tr>
@@ -66,7 +65,7 @@
                 {% endfor %}
             </tbody>
         </table>
-        {% bootstrap_button 'submit' %}
+        <button type="submit" class="btn">submit</button>
     </form>
 </body>
 

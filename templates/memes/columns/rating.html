@@ -1,35 +1,44 @@
 {% load static %}
+<style>
+    .rating-list li {
+        float: right;
+        padding: 10px 5px;
+    }
 
-<h5 class="card-title" id="average-rating-{{ record.number }}" title="{{record.average_rating}}"
-    {% if user_ratings|get_item:record.number == 0 %} style="visibility: hidden;" {% endif %}>
-    ({{ record.rating_count }})
-    <span class="fa fa-star {% if record.average_rating >= 1 %} checked {% endif %}"></span>
-    <span class="fa fa-star {% if record.average_rating >= 2 %} checked {% endif %}"></span>
-    <span class="fa fa-star {% if record.average_rating >= 3 %} checked {% endif %}"></span>
-    <span class="fa fa-star {% if record.average_rating >= 4 %} checked {% endif %}"></span>
-    <span class="fa fa-star {% if record.average_rating >= 5 %} checked {% endif %}"></span>
-</h5>
-<div class="card" style="width: 12rem; display: flex;">
-    <ul class="btn btn-light list-inline rating-list" id="user-rating-{{ record.number }}">
-        <li onclick="rate(5, '{{ record.number }}')">
-            <i class="fa fa-star {% if user_ratings|get_item:record.number >= 5 %} checked {% endif %}"
-                title="Rate 5"></i>
-        </li>
-        <li onclick="rate(4, '{{ record.number }}')">
-            <i class="fa fa-star {% if user_ratings|get_item:record.number >= 4 %} checked {% endif %}"
-                title="Rate 4"></i>
-        </li>
-        <li onclick="rate(3, '{{ record.number }}')">
-            <i class="fa fa-star {% if user_ratings|get_item:record.number >= 3 %} checked {% endif %}"
-                title="Rate 3"></i>
-        </li>
-        <li onclick="rate(2, '{{ record.number }}')">
-            <i class="fa fa-star {% if user_ratings|get_item:record.number >= 2 %} checked {% endif %}"
-                title="Rate 2"></i>
-        </li>
-        <li onclick="rate(1, '{{ record.number }}')">
-            <i class="fa fa-star {% if user_ratings|get_item:record.number >= 1 %} checked {% endif %}"
-                title="Rate 1"></i>
-        </li>
-    </ul>
+    .rating-list li:hover,
+    .rating-list li:hover~li {
+        color: orange;
+    }
+
+    .rating-list {
+        list-style: none;
+        cursor: pointer;
+    }
+
+    .checked {
+        color: orange;
+    }
+</style>
+<div class="container">
+
+    <div id="average-rating-{{ record.number }}" title="{{record.average_rating}}" style="font-size: 12px;"
+        {% if user_ratings|get_item:record.number == 0 %} style="visibility: hidden;" {% endif %}>
+        ({{ record.rating_count }})
+        {% for number in 5|times %}
+        <i class="bi {% if record.average_rating >= number|add:1 %} bi-star-fill checked
+            {% elif record.average_rating >= number|add_half %} bi-star-half checked
+            {% else %} bi-star {% endif %}">
+        </i>
+        {% endfor %}
+    </div>
+    <div class="container d-flex justify-content-center align-content-center mt-5" style="width: 12rem;">
+        <ul class="list-inline rating-list" id="user-rating-{{ record.number }}">
+            {% for number in 5|times_desc:1 %}
+            <li onclick="rate({{ number }}, '{{ record.number }}')">
+                <i class="bi {% if user_ratings|get_item:record.number >= number %} bi-star-fill checked {% else %} bi-star {% endif %}"
+                    title="Rate {{ number }}"></i>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>

@@ -20,7 +20,9 @@ class MemeTable(tables.Table):
     class Meta:
         model = Meme
         template_name = "django_tables2/bootstrap5-responsive.html"
-        attrs = {"class": "table"}
+        attrs = {
+           'td': {'class': 'align-middle'}
+        }
         exclude = ['meme_type', 'rating_count',  'declared_number', 'meme_created_at']
         sequence = ('comment_count', 'average_rating', 'number', 'meme_path', 'voice_recording_path', 'voice_recording_transcript',  
                     'authors', 'voice_recording_created_at', 'season', 'subseason')
