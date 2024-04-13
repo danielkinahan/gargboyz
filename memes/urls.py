@@ -5,7 +5,6 @@ urlpatterns = [
     path('', meme_list, name='list'),
     path('<int:pk>', meme_detail, name='detail'),
     path('random/', meme_random, name='random'),
-    path('season/<int:season>', meme_season, name='season'),
     path('create/', meme_create, name='create'),
     path('create/multiple/', meme_create_multiple, name='create multiple'),
     path('update/<int:pk>/', meme_edit, name='edit'),

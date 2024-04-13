@@ -3,13 +3,6 @@ from django.template.defaulttags import register
 from django.forms.widgets import CheckboxSelectMultiple
 from .models import Meme, Author
 
-class MemeFilter(FilterSet):
-    class Meta:
-        model = Meme
-        fields = {
-            "voice_recording_transcript": ["icontains"],
-            "authors": ["exact"],
-        }
 
 class MemeFilter(FilterSet):
 
@@ -25,6 +18,7 @@ class MemeFilter(FilterSet):
         fields = {
             "voice_recording_transcript": ["icontains"],
             "authors": ["exact"],
+            "season": ["exact"],
         }
 
 
