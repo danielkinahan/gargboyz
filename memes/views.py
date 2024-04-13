@@ -14,7 +14,7 @@ import datetime
 
 from .forms import MemeCreateForm, MemeEditForm, MemeCreateFormSet, CommentForm
 from .models import Meme, Rating, Comment
-from .utils import get_extension, transcribe_audio, get_media_creation_time
+from .utils import get_extension, transcribe_audio, get_media_creation_time, get_season_average_rating
 from .serializers import MemeSerializer
 from .tables import MemeTable
 from .filters import MemeFilter
@@ -39,8 +39,11 @@ def meme_list(request):
     table = MemeTable(memes)
 
     user_ratings = {meme.pk: meme.user_rating(request.user) for meme in memes}
+
+    seasons = Meme.objects.filter(season__isnull=False).values_list('season', flat = True).distinct().order_by('season')
+    season_ratings = {season: get_season_average_rating(season) for season in seasons}
         
-    return render(request, 'memes/list.html', {'table': table, 'filter': filter, 'user_ratings': user_ratings, 'has_filter': has_filter})
+    return render(request, 'memes/list.html', {'table': table, 'filter': filter, 'user_ratings': user_ratings, 'season_ratings': season_ratings, 'has_filter': has_filter})
 
 
 @login_required

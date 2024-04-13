@@ -75,11 +75,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.user, self.body)
-    
-    # I update this in the view with ratings but since this does not have a view it should go here
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        self.meme.update_comment_count()
 
 
 class Rating(models.Model):
