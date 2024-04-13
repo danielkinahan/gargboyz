@@ -3,7 +3,7 @@
 {% block content %}
 
 <body>
-    <h1>{% block heading %}Meme Form{% endblock %}</h1>
+    <h1>{% block heading %}meme form{% endblock %}</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form }}
