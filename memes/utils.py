@@ -4,6 +4,14 @@ import speech_recognition as sr
 import ffmpeg
 import tempfile
 
+from django.db.models import Avg
+
+from .models import Meme
+
+
+def get_season_average_rating(season):
+    return Meme.objects.filter(season=season).aggregate(Avg("average_rating"))["average_rating__avg"] or 0
+
 def get_extension(meme_path):
     return os.path.splitext(meme_path.name)[1].strip('.')
 
