@@ -92,25 +92,27 @@
 
 <h1>memes</h1>
 <hr>
-<div class="text-center mb-2">
-    {% for season, rating in season_ratings.items %}
-    <a href="{% url 'season' season %}" class="btn" style="font-size: 12px;">{{season}}
-        <div id="season-rating-{{ record.number }}" title="{{rating}}">
-            {% for number in 5|times %}
-            <i class="bi {% if rating >= number|add:1 %} bi-star-fill checked
-            {% elif rating >= number|add_half %} bi-star-half checked
-            {% else %} bi-star {% endif %}">
-            </i>
-            {% endfor %}
-        </div>
-    </a>
-    {% endfor %}
-</div>
+
 <div class="text-center">
 
     <div class="container px-4">
         <div class="col align-self-start">
             <form method="get" class="form">
+                <div class="mb-2">
+                    {% for season, rating in season_ratings.items %}
+                    <a href="{% url 'list' %}?season={{season}}" class="btn" style="font-size: 12px;">Season
+                        {{season}}
+                        <div id="season-rating-{{ record.number }}" title="{{rating}}">
+                            {% for number in 5|times %}
+                            <i class="bi {% if rating >= number|add:1 %} bi-star-fill checked
+                            {% elif rating >= number|add_half %} bi-star-half checked
+                            {% else %} bi-star {% endif %}">
+                            </i>
+                            {% endfor %}
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
                 <div class="form-group form-floating mb-3">
                     <input type="text" class="form-control" id="floatingInput"
                         name="voice_recording_transcript__icontains">
