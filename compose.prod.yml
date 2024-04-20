@@ -1,10 +1,11 @@
 services:
   web:
     image: ghcr.io/danielkinahan/gargboyz:latest
+    container_name: gargboyz
     command: gunicorn gargboyz.wsgi:application --workers=4 --bind 0.0.0.0:8000 --preload --access-logfile '-' --error-logfile '-'
     volumes:
-      - static_volume:/home/app/web/staticfiles
-      - media_volume:/home/app/web/mediafiles
+      - ./staticfiles:/home/app/web/staticfiles
+      - ./mediafiles:/home/app/web/mediafiles
     expose:
       - 8000
     env_file:
@@ -15,20 +16,19 @@ services:
       - gargboyz
   db:
     image: postgres:15
+    container_name: gargboyz-db
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - ./db:/var/lib/postgresql/data/
     env_file:
       - ./.env.prod.db
     networks:
       - gargboyz
   nginx:
     image: ghcr.io/danielkinahan/gargboyz-nginx:latest
+    container_name: gargboyz-nginx
     volumes:
-      - static_volume:/home/app/web/staticfiles
-      - media_volume:/home/app/web/mediafiles
-    ports:
-      - 9189:443
-      - 9188:80
+      - ./staticfiles:/home/app/web/staticfiles
+      - ./mediafiles:/home/app/web/mediafiles
     depends_on:
       - web
     networks:
