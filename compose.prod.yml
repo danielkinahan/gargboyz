@@ -35,12 +35,6 @@ services:
       - gargboyz
       - caddy
 
-volumes:
-  postgres_data:
-  static_volume:
-  media_volume:
-
-
 networks:
   gargboyz:
     name: gargboyz
