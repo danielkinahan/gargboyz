@@ -212,10 +212,9 @@ def meme_api_list(request):
     # Return serialized data
     return Response(serializer.data)
 
-
+@api_view(['POST'])
 @authentication_classes([BasicAuthentication])
 @permission_classes([IsAuthenticated])
-@api_view(['POST'])
 def meme_api_create(request):
     serializer = MemeSerializer(data=request.data)
     if serializer.is_valid():
